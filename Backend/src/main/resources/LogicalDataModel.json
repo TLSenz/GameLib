@@ -1,0 +1,34 @@
+{
+  "_id": "ObjectId",
+  "steamAppId": "int",
+  "title": "string",
+  "platforms": ["string"],
+  "storeSnapshot": "string",
+  "description": "string",
+  "shortDescription": "string",
+  "genres": ["string"],
+  "price": "double",
+  "developers": ["string"],
+  "rating": "double",
+  "releaseDate": "date",
+  "lastUpdateAt": "date"
+}
+
+
+{
+  "_id": "ObjectId",
+  "gameId": "ObjectId (references games._id)",
+  "title": "string",
+  "storeSnapshot": "string"
+}
+
+{
+  "_id": "ObjectId",
+  "gameId": "ObjectId (references games._id)",
+  "title": "string",
+  "comment": "string",
+  "created_at": "date",
+  "description": "string",
+  "genres": ["string"],
+  "bewertung": "double"
+}

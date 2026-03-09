@@ -1,0 +1,127 @@
+db.games.insertMany([
+  {
+    steamAppId: NumberInt(730),
+    title: "Counter-Strike 2",
+    platforms: ["Windows", "Linux"],
+    storeSnapshot: "https://cdn.steam.com/cs2_header.jpg",
+    description:
+    "Counter-Strike 2 is the largest technical leap forward in CS history.",
+    shortDescription: "Competitive tactical FPS",
+    genres: ["FPS", "Shooter", "Competitive"],
+    price: 0.0,
+    developers: ["Valve"],
+    rating: 8.5,
+    releaseDate: new Date("2023-09-27"),
+    lastUpdateAt: new Date("2026-03-01")
+  },
+  {
+    steamAppId: NumberInt(1245620),
+    title: "Elden Ring",
+    platforms: ["Windows"],
+    storeSnapshot: "https://cdn.steam.com/eldenring_header.jpg",
+    description:
+    "A new fantasy action RPG from FromSoftware and George R.R. Martin.",
+    shortDescription: "Open-world action RPG",
+    genres: ["RPG", "Action", "Open World"],
+    price: 59.99,
+    developers: ["FromSoftware Inc."],
+    rating: 9.2,
+    releaseDate: new Date("2022-02-25"),
+    lastUpdateAt: new Date("2025-12-15")
+  },
+  {
+    steamAppId: NumberInt(892970),
+    title: "Valheim",
+    platforms: ["Windows", "Linux"],
+    storeSnapshot: "https://cdn.steam.com/valheim_header.jpg",
+    description:
+    "A brutal exploration and survival game set in a Norse mythology world.",
+    shortDescription: "Viking survival crafting",
+    genres: ["Survival", "Open World", "Co-op"],
+    price: 19.99,
+    developers: ["Iron Gate AB"],
+    rating: 8.8,
+    releaseDate: new Date("2021-02-02"),
+    lastUpdateAt: new Date("2026-02-10")
+  }
+])
+
+
+const cs2 = db.games.findOne({ steamAppId: NumberInt(730) })._id
+const eldenRing = db.games.findOne({
+  steamAppId: NumberInt(1245620)
+})._id
+const valheim = db.games.findOne({
+  steamAppId: NumberInt(892970)
+})._id
+
+
+db.achievements.insertMany([
+  {
+    gameId: cs2,
+    title: "First Blood",
+    storeSnapshot: "https://cdn.steam.com/cs2_ach_firstblood.jpg"
+  },
+  {
+    gameId: cs2,
+    title: "Ace!",
+    storeSnapshot: "https://cdn.steam.com/cs2_ach_ace.jpg"
+  },
+  {
+    gameId: eldenRing,
+    title: "Elden Lord",
+    storeSnapshot: "https://cdn.steam.com/er_ach_eldenlord.jpg"
+  },
+  {
+    gameId: eldenRing,
+    title: "Shardbearer",
+    storeSnapshot: "https://cdn.steam.com/er_ach_shardbearer.jpg"
+  },
+  {
+    gameId: valheim,
+    title: "Odin's Blessing",
+    storeSnapshot: "https://cdn.steam.com/vh_ach_odin.jpg"
+  }
+])
+
+db.comments.insertMany([
+  {
+    gameId: cs2,
+    title: "Amazing update!",
+    comment: "The new smoke grenades are game-changing.",
+    created_at: new Date("2026-03-05T14:30:00Z"),
+    description: "Review after 2000h of playtime",
+    genres: ["FPS", "Shooter"],
+    bewertung: 9.0
+  },
+  {
+    gameId: cs2,
+    title: "Needs anti-cheat improvements",
+    comment: "Too many cheaters in ranked matches lately.",
+    created_at: new Date("2026-03-08T10:15:00Z"),
+    description: "Frustrated player review",
+    genres: ["FPS"],
+    bewertung: 5.5
+  },
+  {
+    gameId: eldenRing,
+    title: "Masterpiece",
+    comment:
+    "Open world done right. Every corner has something to discover.",
+    created_at: new Date("2026-02-20T18:00:00Z"),
+    description: "First playthrough complete",
+    genres: ["RPG", "Action"],
+    bewertung: 9.5
+  },
+  {
+    gameId: valheim,
+    title: "Best with friends",
+    comment:
+    "Solo is okay but co-op with 3 friends is incredible.",
+    created_at: new Date("2026-01-15T20:45:00Z"),
+    description: "Co-op perspective",
+    genres: ["Survival", "Co-op"],
+    bewertung: 8.0
+  }
+])
+

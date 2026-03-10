@@ -1,3 +1,11 @@
+use steamDB
+
+db.createCollection("games")
+db.createCollection("achievements")
+db.createCollection("comments")
+
+
+
 db.games.insertMany([
   {
     steamAppId: NumberInt(730),
@@ -124,4 +132,48 @@ db.comments.insertMany([
     bewertung: 8.0
   }
 ])
+
+
+
+
+query verification with agregation:
+
+// Count documents per collection
+db.games.countDocuments()
+db.achievements.countDocuments()
+db.comments.countDocuments()
+
+// Find a game by steamAppId
+db.games.findOne({ steamAppId: NumberInt(730) })
+
+// Find all achievements for Elden Ring
+db.achievements.find({ steamAppId: NumberInt(1245620) })
+
+// Find all comments for CS2, sorted newest first
+db.comments.find({ steamAppId: NumberInt(730) }).sort({ created_at: -1 })
+
+// Aggregation: join games with their comments (like SQL JOIN)
+// See: https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/
+db.games.aggregate([
+{ $match: { steamAppId: NumberInt(730) } },
+{
+$lookup: {
+from: "comments",
+localField: "steamAppId",
+foreignField: "steamAppId",
+as: "gameComments"
+}
+},
+{
+$lookup: {
+from: "achievements",
+localField: "steamAppId",
+foreignField: "steamAppId",
+as: "gameAchievements"
+}
+}
+])
+
+
+
 

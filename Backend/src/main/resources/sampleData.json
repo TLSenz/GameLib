@@ -317,40 +317,89 @@ db.games.insertMany([
 
 
 const cs2 = db.games.findOne({ steamAppId: NumberInt(730) })._id
-const eldenRing = db.games.findOne({
-  steamAppId: NumberInt(1245620)
-})._id
-const valheim = db.games.findOne({
-  steamAppId: NumberInt(892970)
-})._id
+const eldenRing = db.games.findOne({ steamAppId: NumberInt(1245620) })._id
+const valheim = db.games.findOne({ steamAppId: NumberInt(892970) })._id
+const cyberpunk = db.games.findOne({ steamAppId: NumberInt(1091500) })._id
+const rdr2 = db.games.findOne({ steamAppId: NumberInt(1174180) })._id
+const forza = db.games.findOne({ steamAppId: NumberInt(1551360) })._id
+const bg3 = db.games.findOne({ steamAppId: NumberInt(1086940) })._id
+const gta5 = db.games.findOne({ steamAppId: NumberInt(271590) })._id
+const terraria = db.games.findOne({ steamAppId: NumberInt(105600) })._id
+const rust = db.games.findOne({ steamAppId: NumberInt(252490) })._id
+const rimworld = db.games.findOne({ steamAppId: NumberInt(294100) })._id
+const farcry5 = db.games.findOne({ steamAppId: NumberInt(552520) })._id
+const sekiro = db.games.findOne({ steamAppId: NumberInt(814380) })._id
+const hades = db.games.findOne({ steamAppId: NumberInt(367520) })._id
+const ck3 = db.games.findOne({ steamAppId: NumberInt(1158310) })._id
+const plague = db.games.findOne({ steamAppId: NumberInt(752590) })._id
+const drg = db.games.findOne({ steamAppId: NumberInt(548430) })._id
+const massEffect = db.games.findOne({ steamAppId: NumberInt(1328670) })._id
+const hogwarts = db.games.findOne({ steamAppId: NumberInt(1817070) })._id
+const gow = db.games.findOne({ steamAppId: NumberInt(1593500) })._id
+const palworld = db.games.findOne({ steamAppId: NumberInt(1888930) })._id
+const helldivers = db.games.findOne({ steamAppId: NumberInt(990080) })._id
+const stardew = db.games.findOne({ steamAppId: NumberInt(413150) })._id
+const lethal = db.games.findOne({ steamAppId: NumberInt(1332010) })._id
 
 
 db.achievements.insertMany([
-  {
-    gameId: cs2,
-    title: "First Blood",
-    storeSnapshot: "https://cdn.steam.com/cs2_ach_firstblood.jpg"
-  },
-  {
-    gameId: cs2,
-    title: "Ace!",
-    storeSnapshot: "https://cdn.steam.com/cs2_ach_ace.jpg"
-  },
-  {
-    gameId: eldenRing,
-    title: "Elden Lord",
-    storeSnapshot: "https://cdn.steam.com/er_ach_eldenlord.jpg"
-  },
-  {
-    gameId: eldenRing,
-    title: "Shardbearer",
-    storeSnapshot: "https://cdn.steam.com/er_ach_shardbearer.jpg"
-  },
-  {
-    gameId: valheim,
-    title: "Odin's Blessing",
-    storeSnapshot: "https://cdn.steam.com/vh_ach_odin.jpg"
-  }
+  { gameId: cs2, title: "First Blood", storeSnapshot: "https://cdn.steam.com/cs2_ach_firstblood.jpg" },
+  { gameId: cs2, title: "Ace!", storeSnapshot: "https://cdn.steam.com/cs2_ach_ace.jpg" },
+  { gameId: cs2, title: "Headhunter", storeSnapshot: "https://cdn.steam.com/cs2_ach_headhunter.jpg" },
+  { gameId: cs2, title: "Guardian Angel", storeSnapshot: "https://cdn.steam.com/cs2_ach_guardian.jpg" },
+  { gameId: eldenRing, title: "Elden Lord", storeSnapshot: "https://cdn.steam.com/er_ach_eldenlord.jpg" },
+  { gameId: eldenRing, title: "Shardbearer", storeSnapshot: "https://cdn.steam.com/er_ach_shardbearer.jpg" },
+  { gameId: eldenRing, title: "Eternal Champion", storeSnapshot: "https://cdn.steam.com/er_ach_champion.jpg" },
+  { gameId: valheim, title: "Odin's Blessing", storeSnapshot: "https://cdn.steam.com/vh_ach_odin.jpg" },
+  { gameId: valheim, title: "FExplorer", storeSnapshot: "https://cdn.steam.com/vh_ach_explorer.jpg" },
+  { gameId: valheim, title: "Trader", storeSnapshot: "https://cdn.steam.com/vh_ach_trader.jpg" },
+  { gameId: cyberpunk, title: "The Rock", storeSnapshot: "https://cdn.steam.com/cyberpunk_ach_rock.jpg" },
+  { gameId: cyberpunk, title: "Night City Legend", storeSnapshot: "https://cdn.steam.com/cyberpunk_ach_legend.jpg" },
+  { gameId: rdr2, title: "Legendary Cowboy", storeSnapshot: "https://cdn.steam.com/rdr2_ach_cowboy.jpg" },
+  { gameId: rdr2, title: "Horseman", storeSnapshot: "https://cdn.steam.com/rdr2_ach_horseman.jpg" },
+  { gameId: forza, title: "Drift King", storeSnapshot: "https://cdn.steam.com/forza_ach_drift.jpg" },
+  { gameId: bg3, title: "Hero", storeSnapshot: "https://cdn.steam.com/bg3_ach_hero.jpg" },
+  { gameId: bg3, title: "Descent into Avernus", storeSnapshot: "https://cdn.steam.com/bg3_ach_avernus.jpg" },
+  { gameId: gta5, title: "American Dream", storeSnapshot: "https://cdn.steam.com/gta5_ach_dream.jpg" },
+  { gameId: terraria, title: "Master Explorer", storeSnapshot: "https://cdn.steam.com/terraria_ach_explore.jpg" },
+  { gameId: rust, title: "Survivalist", storeSnapshot: "https://cdn.steam.com/rust_ach_survival.jpg" },
+  { gameId: rimworld, title: "Tribe Member", storeSnapshot: "https://cdn.steam.com/rimworld_ach_tribe.jpg" },
+  { gameId: farcry5, title: "Hope County Deputy", storeSnapshot: "https://cdn.steam.com/farcry5_ach_deputy.jpg" },
+  { gameId: sekiro, title: "Resurrection", storeSnapshot: "https://cdn.steam.com/sekiro_ach_resurrection.jpg" },
+  { gameId: hades, title: "Escape Artist", storeSnapshot: "https://cdn.steam.com/hades_ach_escape.jpg" },
+  { gameId: ck3, title: "Crusader King", storeSnapshot: "https://cdn.steam.com/ck3_ach_crusader.jpg" },
+  { gameId: drg, title: "Morkite Mining", storeSnapshot: "https://cdn.steam.com/drg_ach_morkite.jpg" },
+  { gameId: massEffect, title: "Spectre", storeSnapshot: "https://cdn.steam.com/masseffect_ach_spectre.jpg" }
+])
+
+db.comments.insertMany([
+  { gameId: cs2, title: "Amazing update!", comment: "The new smoke grenades are game-changing.", created_at: new Date("2026-03-05T14:30:00Z"), description: "Review after 2000h of playtime", genres: ["FPS", "Shooter"], bewertung: 9.0 },
+  { gameId: cs2, title: "Needs anti-cheat improvements", comment: "Too many cheaters in ranked matches lately.", created_at: new Date("2026-03-08T10:15:00Z"), description: "Frustrated player review", genres: ["FPS"], bewertung: 5.5 },
+  { gameId: cs2, title: "Best FPS ever", comment: "Still the king of tactical shooters after all these years.", created_at: new Date("2026-02-28T16:20:00Z"), description: "Long-time fan", genres: ["FPS", "Shooter", "Competitive"], bewertung: 9.5 },
+  { gameId: eldenRing, title: "Masterpiece", comment: "Open world done right. Every corner has something to discover.", created_at: new Date("2026-02-20T18:00:00Z"), description: "First playthrough complete", genres: ["RPG", "Action"], bewertung: 9.5 },
+  { gameId: eldenRing, title: "Hard but fair", comment: "Challenging but never frustrating. Perfect balance.", created_at: new Date("2026-01-10T12:00:00Z"), description: "Souls veteran", genres: ["RPG", "Action", "Souls-like"], bewertung: 9.8 },
+  { gameId: valheim, title: "Best with friends", comment: "Solo is okay but co-op with 3 friends is incredible.", created_at: new Date("2026-01-15T20:45:00Z"), description: "Co-op perspective", genres: ["Survival", "Co-op"], bewertung: 8.0 },
+  { gameId: valheim, title: "Viking life", comment: "Building my longhouse was so satisfying.", created_at: new Date("2025-12-20T09:30:00Z"), description: "Builder review", genres: ["Survival", "Crafting"], bewertung: 8.5 },
+  { gameId: cyberpunk, title: "Worth the wait", comment: "After 2.0 update, this is finally the game we wanted.", created_at: new Date("2026-03-01T15:00:00Z"), description: "Post-patch review", genres: ["RPG", "Action"], bewertung: 8.5 },
+  { gameId: rdr2, title: "A work of art", comment: "The storytelling is unparalleled. Arthur Morgan is legendary.", created_at: new Date("2026-02-15T11:00:00Z"), description: "Story lover", genres: ["Action", "Adventure"], bewertung: 10.0 },
+  { gameId: forza, title: "Beautiful driving", comment: "Mexico is the best horizon map yet!", created_at: new Date("2025-11-20T14:00:00Z"), description: "Car enthusiast", genres: ["Racing"], bewertung: 9.2 },
+  { gameId: bg3, title: "Best RPG ever", comment: "No two playthroughs are the same. Incredible depth.", created_at: new Date("2026-02-05T18:30:00Z"), description: "RPG veteran", genres: ["RPG", "Strategy"], bewertung: 9.8 },
+  { gameId: gta5, title: "Still fun after years", comment: "The Online mode keeps it alive.", created_at: new Date("2026-01-25T10:00:00Z"), description: "Long-time player", genres: ["Action", "Open World"], bewertung: 8.5 },
+  { gameId: terraria, title: "Endless content", comment: "There's always something new to build or explore.", created_at: new Date("2025-10-15T16:45:00Z"), description: "Creative builder", genres: ["Sandbox", "Adventure"], bewertung: 9.5 },
+  { gameId: rust, title: "Brutal but addictive", comment: "The survival mechanics are intense.", created_at: new Date("2026-03-07T08:00:00Z"), description: "Survival gamer", genres: ["Survival", "Multiplayer"], bewertung: 7.5 },
+  { gameId: rimworld, title: "Story generator", comment: "The AI storyteller creates hilarious situations.", created_at: new Date("2025-12-10T13:20:00Z"), description: "Colony manager", genres: ["Simulation", "Strategy"], bewertung: 9.3 },
+  { gameId: farcry5, title: "Great villain", comment: "Joseph Seed is one of the best antagonists ever.", created_at: new Date("2025-09-05T19:00:00Z"), description: "Story focused", genres: ["Action", "FPS"], bewertung: 8.2 },
+  { gameId: sekiro, title: "Difficult but rewarding", comment: "Master the parry and feel like a shinobi.", created_at: new Date("2025-11-30T17:15:00Z"), description: "Action game fan", genres: ["Action", "Souls-like"], bewertung: 9.4 },
+  { gameId: hades, title: "Roguelike perfection", comment: "The narrative + gameplay loop is unmatched.", created_at: new Date("2026-01-05T20:00:00Z"), description: "Indie lover", genres: ["Action", "Roguelike"], bewertung: 9.7 },
+  { gameId: ck3, title: "Endless replayability", comment: "I've played 500 hours and still discover new things.", created_at: new Date("2025-08-20T12:30:00Z"), description: "Strategy veteran", genres: ["Strategy", "RPG"], bewertung: 9.1 },
+  { gameId: drg, title: "Best co-op", comment: "Nothing beats mining with the boys.", created_at: new Date("2026-02-25T14:00:00Z"), description: "Co-op gamer", genres: ["Co-op", "Action"], bewertung: 9.0 },
+  { gameId: massEffect, title: "Nostalgia hit", comment: "The legendary edition is the perfect way to revisit Shepard's story.", created_at: new Date("2025-07-10T10:30:00Z"), description: "ME fan", genres: ["RPG", "Action"], bewertung: 9.5 },
+  { gameId: hogwarts, title: "Magical experience", comment: "Finally living out my wizard dreams!", created_at: new Date("2026-03-02T16:45:00Z"), description: "HP fan", genres: ["Action", "RPG", "Open World"], bewertung: 8.8 },
+  { gameId: gow, title: "Father and son", comment: "Kratos and Atreus story is heartwarming.", created_at: new Date("2025-12-01T11:15:00Z"), description: "Story gamer", genres: ["Action", "Adventure"], bewertung: 9.6 },
+  { gameId: palworld, title: "Pokemon with guns", comment: "Controversial but incredibly fun.", created_at: new Date("2026-01-20T09:00:00Z"), description: "Casual gamer", genres: ["Survival", "Open World", "Crafting"], bewertung: 7.8 },
+  { gameId: helldivers, title: "Super Earth!", comment: "Democracy in action. Love the difficulty.", created_at: new Date("2026-02-10T15:30:00Z"), description: "Co-op shooter fan", genres: ["Action", "Co-op", "Shooter"], bewertung: 8.7 },
+  { gameId: stardew, title: "Relaxing farming", comment: "Perfect game to unwind after work.", created_at: new Date("2025-06-25T21:00:00Z"), description: "Casual player", genres: ["Simulation", "RPG"], bewertung: 9.5 },
+  { gameId: lethal, title: "Scary fun", comment: "The quota system adds great tension.", created_at: new Date("2026-03-06T19:45:00Z"), description: "Horror fan", genres: ["Horror", "Co-op"], bewertung: 9.2 }
 ])
 
 db.comments.insertMany([

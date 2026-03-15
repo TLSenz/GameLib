@@ -1,0 +1,42 @@
+.navbar {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  margin: 0 auto 2rem auto;
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+.logo {
+  background-color: var(--text-muted);
+  color: #000;
+  padding: 8px 16px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.navLinks {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.link {
+  color: var(--text-main);
+  font-size: 1.1rem;
+  padding-bottom: 4px;
+  transition: color 0.2s;
+}
+
+.link:hover {
+  color: var(--text-muted);
+}
+
+.activeLink {
+  color: var(--accent-blue);
+  border-bottom: 2px solid var(--accent-blue);
+}
+
+.activeLink:hover {
+  color: var(--accent-blue);
+}

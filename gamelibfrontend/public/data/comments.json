@@ -1,0 +1,245 @@
+[
+  {
+    "steamAppId": 730,
+    "title": "Amazing update!",
+    "comment": "The new smoke grenades are game-changing.",
+    "created_at": "2026-03-05T14:30:00Z",
+    "description": "Review after 2000h of playtime",
+    "genres": ["FPS", "Shooter"],
+    "bewertung": 9.0
+  },
+  {
+    "steamAppId": 730,
+    "title": "Needs anti-cheat improvements",
+    "comment": "Too many cheaters in ranked matches lately.",
+    "created_at": "2026-03-08T10:15:00Z",
+    "description": "Frustrated player review",
+    "genres": ["FPS"],
+    "bewertung": 5.5
+  },
+  {
+    "steamAppId": 730,
+    "title": "Best FPS ever",
+    "comment": "Still the king of tactical shooters after all these years.",
+    "created_at": "2026-02-28T16:20:00Z",
+    "description": "Long-time fan",
+    "genres": ["FPS", "Shooter", "Competitive"],
+    "bewertung": 9.5
+  },
+  {
+    "steamAppId": 1245620,
+    "title": "Masterpiece",
+    "comment": "Open world done right. Every corner has something to discover.",
+    "created_at": "2026-02-20T18:00:00Z",
+    "description": "First playthrough complete",
+    "genres": ["RPG", "Action"],
+    "bewertung": 9.5
+  },
+  {
+    "steamAppId": 1245620,
+    "title": "Hard but fair",
+    "comment": "Challenging but never frustrating. Perfect balance.",
+    "created_at": "2026-01-10T12:00:00Z",
+    "description": "Souls veteran",
+    "genres": ["RPG", "Action", "Souls-like"],
+    "bewertung": 9.8
+  },
+  {
+    "steamAppId": 892970,
+    "title": "Best with friends",
+    "comment": "Solo is okay but co-op with 3 friends is incredible.",
+    "created_at": "2026-01-15T20:45:00Z",
+    "description": "Co-op perspective",
+    "genres": ["Survival", "Co-op"],
+    "bewertung": 8.0
+  },
+  {
+    "steamAppId": 892970,
+    "title": "Viking life",
+    "comment": "Building my longhouse was so satisfying.",
+    "created_at": "2025-12-20T09:30:00Z",
+    "description": "Builder review",
+    "genres": ["Survival", "Crafting"],
+    "bewertung": 8.5
+  },
+  {
+    "steamAppId": 1091500,
+    "title": "Worth the wait",
+    "comment": "After 2.0 update, this is finally the game we wanted.",
+    "created_at": "2026-03-01T15:00:00Z",
+    "description": "Post-patch review",
+    "genres": ["RPG", "Action"],
+    "bewertung": 8.5
+  },
+  {
+    "steamAppId": 1174180,
+    "title": "A work of art",
+    "comment": "The storytelling is unparalleled. Arthur Morgan is legendary.",
+    "created_at": "2026-02-15T11:00:00Z",
+    "description": "Story lover",
+    "genres": ["Action", "Adventure"],
+    "bewertung": 10.0
+  },
+  {
+    "steamAppId": 1551360,
+    "title": "Beautiful driving",
+    "comment": "Mexico is the best horizon map yet!",
+    "created_at": "2025-11-20T14:00:00Z",
+    "description": "Car enthusiast",
+    "genres": ["Racing"],
+    "bewertung": 9.2
+  },
+  {
+    "steamAppId": 1086940,
+    "title": "Best RPG ever",
+    "comment": "No two playthroughs are the same. Incredible depth.",
+    "created_at": "2026-02-05T18:30:00Z",
+    "description": "RPG veteran",
+    "genres": ["RPG", "Strategy"],
+    "bewertung": 9.8
+  },
+  {
+    "steamAppId": 271590,
+    "title": "Still fun after years",
+    "comment": "The Online mode keeps it alive.",
+    "created_at": "2026-01-25T10:00:00Z",
+    "description": "Long-time player",
+    "genres": ["Action", "Open World"],
+    "bewertung": 8.5
+  },
+  {
+    "steamAppId": 105600,
+    "title": "Endless content",
+    "comment": "There's always something new to build or explore.",
+    "created_at": "2025-10-15T16:45:00Z",
+    "description": "Creative builder",
+    "genres": ["Sandbox", "Adventure"],
+    "bewertung": 9.5
+  },
+  {
+    "steamAppId": 252490,
+    "title": "Brutal but addictive",
+    "comment": "The survival mechanics are intense.",
+    "created_at": "2026-03-07T08:00:00Z",
+    "description": "Survival gamer",
+    "genres": ["Survival", "Multiplayer"],
+    "bewertung": 7.5
+  },
+  {
+    "steamAppId": 294100,
+    "title": "Story generator",
+    "comment": "The AI storyteller creates hilarious situations.",
+    "created_at": "2025-12-10T13:20:00Z",
+    "description": "Colony manager",
+    "genres": ["Simulation", "Strategy"],
+    "bewertung": 9.3
+  },
+  {
+    "steamAppId": 552520,
+    "title": "Great villain",
+    "comment": "Joseph Seed is one of the best antagonists ever.",
+    "created_at": "2025-09-05T19:00:00Z",
+    "description": "Story focused",
+    "genres": ["Action", "FPS"],
+    "bewertung": 8.2
+  },
+  {
+    "steamAppId": 814380,
+    "title": "Difficult but rewarding",
+    "comment": "Master the parry and feel like a shinobi.",
+    "created_at": "2025-11-30T17:15:00Z",
+    "description": "Action game fan",
+    "genres": ["Action", "Souls-like"],
+    "bewertung": 9.4
+  },
+  {
+    "steamAppId": 367520,
+    "title": "Roguelike perfection",
+    "comment": "The narrative + gameplay loop is unmatched.",
+    "created_at": "2026-01-05T20:00:00Z",
+    "description": "Indie lover",
+    "genres": ["Action", "Roguelike"],
+    "bewertung": 9.7
+  },
+  {
+    "steamAppId": 1158310,
+    "title": "Endless replayability",
+    "comment": "I've played 500 hours and still discover new things.",
+    "created_at": "2025-08-20T12:30:00Z",
+    "description": "Strategy veteran",
+    "genres": ["Strategy", "RPG"],
+    "bewertung": 9.1
+  },
+  {
+    "steamAppId": 548430,
+    "title": "Best co-op",
+    "comment": "Nothing beats mining with the boys.",
+    "created_at": "2026-02-25T14:00:00Z",
+    "description": "Co-op gamer",
+    "genres": ["Co-op", "Action"],
+    "bewertung": 9.0
+  },
+  {
+    "steamAppId": 1328670,
+    "title": "Nostalgia hit",
+    "comment": "The legendary edition is the perfect way to revisit Shepard's story.",
+    "created_at": "2025-07-10T10:30:00Z",
+    "description": "ME fan",
+    "genres": ["RPG", "Action"],
+    "bewertung": 9.5
+  },
+  {
+    "steamAppId": 1817070,
+    "title": "Magical experience",
+    "comment": "Finally living out my wizard dreams!",
+    "created_at": "2026-03-02T16:45:00Z",
+    "description": "HP fan",
+    "genres": ["Action", "RPG", "Open World"],
+    "bewertung": 8.8
+  },
+  {
+    "steamAppId": 1593500,
+    "title": "Father and son",
+    "comment": "Kratos and Atreus story is heartwarming.",
+    "created_at": "2025-12-01T11:15:00Z",
+    "description": "Story gamer",
+    "genres": ["Action", "Adventure"],
+    "bewertung": 9.6
+  },
+  {
+    "steamAppId": 1888930,
+    "title": "Pokemon with guns",
+    "comment": "Controversial but incredibly fun.",
+    "created_at": "2026-01-20T09:00:00Z",
+    "description": "Casual gamer",
+    "genres": ["Survival", "Open World", "Crafting"],
+    "bewertung": 7.8
+  },
+  {
+    "steamAppId": 990080,
+    "title": "Super Earth!",
+    "comment": "Democracy in action. Love the difficulty.",
+    "created_at": "2026-02-10T15:30:00Z",
+    "description": "Co-op shooter fan",
+    "genres": ["Action", "Co-op", "Shooter"],
+    "bewertung": 8.7
+  },
+  {
+    "steamAppId": 413150,
+    "title": "Relaxing farming",
+    "comment": "Perfect game to unwind after work.",
+    "created_at": "2025-06-25T21:00:00Z",
+    "description": "Casual player",
+    "genres": ["Simulation", "RPG"],
+    "bewertung": 9.5
+  },
+  {
+    "steamAppId": 1332010,
+    "title": "Scary fun",
+    "comment": "The quota system adds great tension.",
+    "created_at": "2026-03-06T19:45:00Z",
+    "description": "Horror fan",
+    "genres": ["Horror", "Co-op"],
+    "bewertung": 9.2
+  }
+]

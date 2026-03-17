@@ -12,7 +12,6 @@ import java.util.Optional;
 public interface GameRepository extends MongoRepository<Game, String> {
 
 
-    List<gameDTO> findAllGames();
 
     Optional<Game> findBySteamAppId(Integer steamAppId);
 

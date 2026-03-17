@@ -1,20 +1,20 @@
 package gibb.losve.gameLib.mapper;
 
-import gibb.losve.gameLib.dto.achivement.achivementDTO;
-import gibb.losve.gameLib.dto.achivement.createAchivementDTO;
-import gibb.losve.gameLib.dto.achivement.updateAchivementDTO;
+import gibb.losve.gameLib.dto.achivement.AchievementDTO;
+import gibb.losve.gameLib.dto.achivement.CreateAchievementDTO;
+import gibb.losve.gameLib.dto.achivement.UpdateAchievementDTO;
 import gibb.losve.gameLib.model.Achievement;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface AchievementMapper {
 
-    Achievement toEntity(achivementDTO dto);
+    Achievement toEntity(AchievementDTO dto);
 
-    achivementDTO toDTO(Achievement entity);
+    AchievementDTO toDTO(Achievement entity);
 
-    Achievement toEntity(createAchivementDTO dto);
+    Achievement toEntity(CreateAchievementDTO dto);
 
-    Achievement toEntity(updateAchivementDTO dto);
+    Achievement toEntity(UpdateAchievementDTO dto);
 }
 

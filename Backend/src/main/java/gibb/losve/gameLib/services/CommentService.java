@@ -1,9 +1,9 @@
 package gibb.losve.gameLib.services;
 
 
-import gibb.losve.gameLib.dto.comment.commentDTO;
-import gibb.losve.gameLib.dto.comment.createCommentDTO;
-import gibb.losve.gameLib.dto.comment.updateCommentDTO;
+import gibb.losve.gameLib.dto.comment.CommentDTO;
+import gibb.losve.gameLib.dto.comment.CreateCommentDTO;
+import gibb.losve.gameLib.dto.comment.UpdateCommentDTO;
 import gibb.losve.gameLib.mapper.CommentMapper;
 import gibb.losve.gameLib.model.Comment;
 import gibb.losve.gameLib.repository.CommentRepository;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class CommentService {
@@ -22,42 +21,41 @@ public class CommentService {
     @Autowired
     CommentMapper commentMapper;
 
-    List<commentDTO> getAllComments(int numberOfComments) {
+    public List<CommentDTO> getAllComments(int numberOfComments) {
         return commentRepository.findAll().stream()
                 .map(comment -> commentMapper.toDTO(comment))
                 .limit(numberOfComments)
                 .toList();
     }
 
-    commentDTO getCommentById(String id) {
-        return commentRepository.findById(id)
-                .map(comment -> commentMapper.toDTO(comment))
-                .orElseThrow(() -> new NoSuchElementException("Comment not found"));
+    public List<CommentDTO> getCommentById(String id) {
+        return commentRepository.findByGameId(id).stream()
+                .map(comments -> commentMapper.toDTO(comments)).toList();
     }
 
-    List<commentDTO> getCommentsByGameId(String gameId) {
+    public List<CommentDTO> getCommentsByGameId(String gameId) {
         return commentRepository.findByGameId(gameId).stream()
                 .map(comment -> commentMapper.toDTO(comment))
                 .toList();
     }
 
-    List<commentDTO> getCommentsByAchievementId(String achievementId) {
+    public List<CommentDTO> getCommentsByAchievementId(String achievementId) {
         return commentRepository.findByAchievementId(achievementId).stream()
                 .map(comment -> commentMapper.toDTO(comment))
                 .toList();
     }
 
-    void createComment(createCommentDTO comment) {
+    public void createComment(CreateCommentDTO comment) {
         Comment mappedComment = commentMapper.toEntity(comment);
         commentRepository.save(mappedComment);
     }
 
-    void updateComment(updateCommentDTO comment) {
+   public void updateComment(UpdateCommentDTO comment) {
         Comment updatedComment = commentMapper.toEntity(comment);
         commentRepository.save(updatedComment);
     }
 
-    void deleteComment(String id) {
+    public void deleteComment(String id) {
         commentRepository.deleteById(id);
     }
 }

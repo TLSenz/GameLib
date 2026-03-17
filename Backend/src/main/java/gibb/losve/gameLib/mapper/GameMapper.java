@@ -1,9 +1,9 @@
 package gibb.losve.gameLib.mapper;
 
 
-import gibb.losve.gameLib.dto.game.createGameDTO;
-import gibb.losve.gameLib.dto.game.gameDTO;
-import gibb.losve.gameLib.dto.game.updateGameDTO;
+import gibb.losve.gameLib.dto.game.CreateGameDTO;
+import gibb.losve.gameLib.dto.game.GameDTO;
+import gibb.losve.gameLib.dto.game.UpdateGameDTO;
 import gibb.losve.gameLib.model.Game;
 import org.mapstruct.Mapper;
 
@@ -11,12 +11,12 @@ import org.mapstruct.Mapper;
 public interface GameMapper   {
 
 
-        Game toEntity(gameDTO dto);
+        Game toEntity(GameDTO dto);
 
-        gameDTO toDTO(Game entity);
+        GameDTO toDTO(Game entity);
 
-        Game toEntity(createGameDTO dto);
+        Game toEntity(CreateGameDTO dto);
 
-        Game toEntity(updateGameDTO dto);
+        Game toEntity(UpdateGameDTO dto);
 
 }

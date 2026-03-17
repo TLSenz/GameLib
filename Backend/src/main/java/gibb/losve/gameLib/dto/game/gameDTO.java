@@ -1,67 +1,67 @@
-package gibb.losve.gameLib.model;
+package gibb.losve.gameLib.dto.game;
 
+import gibb.losve.gameLib.dto.achivement.achivementDTO;
+import gibb.losve.gameLib.dto.comment.commentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import org.springframework.lang.Nullable;
+
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "games")
-public class Game {
+public class gameDTO {
+
 
     @Id
+    @Field("steamAppId")
     private Integer steamAppId;
 
-    @Nullable
     private String title;
 
-    @Nullable
     private List<String> platforms;
 
-    @Nullable
+    @Field("storeSnapshot")
     private String storeSnapshot;
 
-    @Nullable
     private String description;
 
-    @Nullable
+    @Field("shortDescription")
     private String shortDescription;
 
-    @Nullable
     private List<String> genres;
 
-    @Nullable
     private BigDecimal price;
 
-    @Nullable
     private List<String> developers;
 
-    @Nullable
     private Double rating;
 
-    @Nullable
+    @Field("releaseDate")
     private LocalDate releaseDate;
 
-    @Nullable
+    @Field("lastUpdateAt")
     private LocalDate lastUpdateAt;
 
-    @Nullable
+    @Field("isDLC")
     private Boolean isDLC;
 
-    @Nullable
+    @Field("baseGameAppId")
     private Integer baseGameAppId;
 
-    @Nullable
+    @Field("earlyAccess")
     private Boolean earlyAccess;
+
+
+    private List<commentDTO> comments;
+
+    private List<achivementDTO> achievements;
 }

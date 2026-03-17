@@ -1,14 +1,11 @@
-package gibb.losve.gameLib.model;
-
+package gibb.losve.gameLib.dto.achivement;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.lang.Nullable;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 
@@ -16,23 +13,17 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "achievements")
-public class Achievement {
+public class createAchivementDTO {
 
-    @Id
-    private String id;
-
-    @Indexed
+    @Field("gameId")
     private Integer gameId;
 
     private String title;
 
-    @Nullable
+    @Field("storeSnapshot")
     private String storeSnapshot;
 
-    @Nullable
     private String description;
 
-    @Nullable
     private BigDecimal rarity;
 }

@@ -9,6 +9,9 @@ import java.util.List;
 @Repository
 public interface CommentRepository extends MongoRepository<Comment, String> {
 
+
+    List<Comment> findByAchievementId(String achievementId);
+
     List<Comment> findByGameId(String gameId);
 
     void deleteByGameId(String gameId);

@@ -1,15 +1,11 @@
-package gibb.losve.gameLib.model;
-
-
+package gibb.losve.gameLib.dto.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.lang.Nullable;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,30 +15,26 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "comments")
-public class Comment {
-
+public class commentDTO {
     @Id
     private String id;
 
-    @Indexed
+    @Field("gameId")
     private Integer gameId;
 
-    @Indexed
+    @Field("achievementId")
     private String achievementId;
 
     private String title;
 
     private String comment;
 
+    @Field("createdAt")
     private LocalDateTime createdAt;
 
-    @Nullable
     private String description;
 
-    @Nullable
     private List<String> genres;
 
-    @Nullable
     private BigDecimal bewertung;
 }

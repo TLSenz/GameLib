@@ -3,7 +3,7 @@ package gibb.losve.gameLib.services;
 import gibb.losve.gameLib.dto.achivement.achivementDTO;
 import gibb.losve.gameLib.dto.achivement.createAchivementDTO;
 import gibb.losve.gameLib.dto.achivement.updateAchivementDTO;
-import gibb.losve.gameLib.mapper.AchivementMapper;
+import gibb.losve.gameLib.mapper.AchievementMapper;
 import gibb.losve.gameLib.model.Achievement;
 import gibb.losve.gameLib.repository.AchievementRepository;
 import gibb.losve.gameLib.repository.GameRepository;
@@ -20,7 +20,7 @@ public class achievementService {
     AchievementRepository achievementRepository;
 
     @Autowired
-    AchivementMapper achievementMapper;
+    AchievementMapper achievementMapper;
 
     @Autowired
     GameRepository gameRepository;

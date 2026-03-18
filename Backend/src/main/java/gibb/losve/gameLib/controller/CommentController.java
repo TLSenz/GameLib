@@ -27,6 +27,23 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
+    @Operation(summary = "Returns List off Comments", description = "Returns a List of random Comments, can be limited with Path Param")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comments found",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = CommentDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping
+    public ResponseEntity<List<CommentDTO>> getAllComments(@RequestParam (defaultValue = "10") int numberOffCommnets){
+        try {
+           return ResponseEntity.ok(commentService.getAllComments(numberOffCommnets));
+        }
+        catch (Exception e){
+         return    ResponseEntity.internalServerError().build();
+        }
+    }
+
 
     @Operation(summary = "Get comments by game ID", description = "Retrieves all comments for a specific game")
     @ApiResponses(value = {
@@ -35,15 +52,34 @@ public class CommentController {
                          schema = @Schema(implementation = CommentDTO.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping("/{gameID}")
-    public ResponseEntity<List<CommentDTO>> getComments(
-            @Parameter(description = "Game ID", required = true) @PathVariable int gameID) {
+    @GetMapping("/games/{gameID}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByGameId(
+            @Parameter(description = "Game ID", required = true) @PathVariable String gameID) {
         try {
-           return ResponseEntity.ok(commentService.getCommentById(String.valueOf(gameID)));
+           return ResponseEntity.ok(commentService.getCommentsByGameId(gameID));
         }
         catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @Operation(summary = "Get comments by Achievements id", description = "Endpoint for getting comments via Achievements Id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comments returned Successfully",
+            content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema =  @Schema(implementation = CommentDTO.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error while Creating Service")
+    })
+
+    @GetMapping("/achievements/{achievementsId}")
+    public ResponseEntity<List<CommentDTO>> getCommentsByAchievementsId(@PathVariable String achievementsId){
+            try {
+                return  ResponseEntity.ok(commentService.getCommentsByAchievementId(achievementsId));
+            } catch (Exception e) {
+                return ResponseEntity.internalServerError().build();
+            }
     }
 
     @Operation(summary = "Create a new comment", description = "Creates a new comment for a game")

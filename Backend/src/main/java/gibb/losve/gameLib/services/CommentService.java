@@ -7,6 +7,7 @@ import gibb.losve.gameLib.dto.comment.UpdateCommentDTO;
 import gibb.losve.gameLib.mapper.CommentMapper;
 import gibb.losve.gameLib.model.Comment;
 import gibb.losve.gameLib.repository.CommentRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +30,12 @@ public class CommentService {
     }
 
     public List<CommentDTO> getCommentById(String id) {
-        return commentRepository.findByGameId(id).stream()
+        return commentRepository.findByGameId(new ObjectId(id)).stream()
                 .map(comments -> commentMapper.toDTO(comments)).toList();
     }
 
     public List<CommentDTO> getCommentsByGameId(String gameId) {
-        return commentRepository.findByGameId(gameId).stream()
+        return commentRepository.findByGameId(new ObjectId(gameId)).stream()
                 .map(comment -> commentMapper.toDTO(comment))
                 .toList();
     }

@@ -1,6 +1,7 @@
 package gibb.losve.gameLib.repository;
 
 import gibb.losve.gameLib.model.Comment;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,7 @@ public interface CommentRepository extends MongoRepository<Comment, String> {
 
     List<Comment> findByAchievementId(String achievementId);
 
-    List<Comment> findByGameId(String gameId);
+    List<Comment> findByGameId(ObjectId gameId);
 
     void deleteByGameId(String gameId);
 }

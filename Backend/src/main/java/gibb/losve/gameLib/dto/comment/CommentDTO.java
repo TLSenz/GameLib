@@ -24,7 +24,7 @@ public class CommentDTO {
 
     @Field("gameId")
     @Schema(description = "Game ID associated with this comment", example = "1091500")
-    private Integer gameId;
+    private String gameId;
 
     @Field("achievementId")
     @Schema(description = "Achievement ID associated with this comment")

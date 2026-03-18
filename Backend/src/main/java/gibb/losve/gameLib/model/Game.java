@@ -21,7 +21,9 @@ import org.springframework.lang.Nullable;
 public class Game {
 
     @Id
-    private Integer steamAppId;
+    private String id; // MongoDB auto-generated ObjectId
+
+    private String steamAppId; // no longer the @Id
 
     @Nullable
     private String title;

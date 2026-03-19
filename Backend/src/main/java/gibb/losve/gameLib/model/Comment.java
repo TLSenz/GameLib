@@ -1,27 +1,49 @@
 package gibb.losve.gameLib.model;
 
+
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.lang.Nullable;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Document(collection = "comments")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "comments")
 public class Comment {
 
     @Id
-    private String id;
+    private ObjectId id;
 
     @Indexed
-    private String gameId;
+    private ObjectId gameId;
+
+    @Indexed
+    private String achievementId;
 
     private String title;
+
     private String comment;
-    private LocalDate createdAt;
+
+    private LocalDateTime createdAt;
+
+    @Nullable
     private String description;
+
+    @Nullable
     private List<String> genres;
-    private Double rating;
+
+    @Nullable
+    private BigDecimal bewertung;
 }

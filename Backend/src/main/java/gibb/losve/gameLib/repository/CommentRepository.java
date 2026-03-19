@@ -11,7 +11,7 @@ import java.util.List;
 public interface CommentRepository extends MongoRepository<Comment, String> {
 
 
-    List<Comment> findByAchievementId(String achievementId);
+    List<Comment> findByAchievementId(ObjectId achievementId);
 
     List<Comment> findByGameId(ObjectId gameId);
 

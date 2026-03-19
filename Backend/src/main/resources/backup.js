@@ -6,7 +6,7 @@ mongodump \
   --port 27017 \
   --username backup_user \
   --password BackupPass123! \
-  --authenticationDatabase admin \
+  --authenticationDatabase steamDB \
   --db gamedb \
   --oplog \
   --gzip \
@@ -17,7 +17,7 @@ mongodump \
 0 2 * * * mongodump \
   --host localhost --port 27017 \
   --username backup_user --password BackupPass123! \
-  --authenticationDatabase admin \
+  --authenticationDatabase steamDB \
   --db gamedb --oplog --gzip \
   --out /backups/gamedb_$(date +\%Y-\%m-\%d) \
 && find /backups -maxdepth 1 -name "gamedb_*" -mtime +7 -exec rm -rf {} \;
@@ -30,7 +30,19 @@ mongorestore \
   --username backup_user \
   --password BackupPass123! \
   --authenticationDatabase admin \
-  --db gamedb \
-  --oplogReplay \
+  --db steamDB \
   --gzip \
-  /backups/gamedb_2026-03-17/gamedb
+  /backups/gamedb_2026-03-19/gamedb
+
+
+
+mongorestore \
+  --host localhost \
+  --port 27017 \
+  --username app_user \
+  --password AppPass123! \
+  --authenticationDatabase steamDB \
+  --db steamDB \
+  --gzip \
+  --drop \
+./gamedb_2026-03-19/steamDB

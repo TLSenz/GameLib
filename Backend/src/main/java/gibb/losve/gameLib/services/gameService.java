@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @Service
@@ -22,8 +23,12 @@ public class gameService {
     @Autowired
     GameMapper gameMapper;
 
-   public List<GameDTO> getAllGames(int numberOfGames) {
+    public List<GameDTO> getAllGames(int numberOfGames) {
         return gameRepository.findAll().stream().map(game -> gameMapper.toDTO(game)).limit(numberOfGames).toList();
+    }
+
+    public GameDTO getGameBySteamAppId(int steamAppId) {
+        return gameRepository.findBySteamAppId(steamAppId).map(game -> gameMapper.toDTO(game)).orElseThrow(() -> new NoSuchElementException("Game Not Found"));
     }
 
     public GameDTO getGameById(String id) throws Exception {
@@ -35,12 +40,23 @@ public class gameService {
         gameRepository.save(mappedGame);
     }
 
-   public void updateGame(UpdateGameDTO game) {
+    public void updateGame(UpdateGameDTO game) {
+        Game existing = gameRepository
+                .findBySteamAppId(game.getSteamAppId())
+                .orElseThrow(NoSuchElementException::new);
+
+        gameMapper.updateEntityFromDto(game,existing);
         Game updatedGame = gameMapper.toEntity(game);
         gameRepository.save(updatedGame);
     }
 
-   public void deleteGame(String id) {
+
+    public boolean doesGameExist(String id){
+        Optional<Game> existing = gameRepository.findById(id);
+        return existing.isPresent();
+    }
+
+    public void deleteGame(String id) {
         gameRepository.deleteById(id);
     }
 }

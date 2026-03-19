@@ -1,9 +1,21 @@
 package gibb.losve.gameLib.model;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.lang.Nullable;
 
+import java.math.BigDecimal;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "achievements")
 public class Achievement {
 
@@ -11,43 +23,16 @@ public class Achievement {
     private String id;
 
     @Indexed
-    private String gameId;
+    private Integer gameId;
 
     private String title;
+
+    @Nullable
     private String storeSnapshot;
 
-    public Achievement() {
-    }
+    @Nullable
+    private String description;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(String gameId) {
-        this.gameId = gameId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getStoreSnapshot() {
-        return storeSnapshot;
-    }
-
-    public void setStoreSnapshot(String storeSnapshot) {
-        this.storeSnapshot = storeSnapshot;
-    }
+    @Nullable
+    private BigDecimal rarity;
 }

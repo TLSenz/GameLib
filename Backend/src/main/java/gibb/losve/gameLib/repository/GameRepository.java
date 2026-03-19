@@ -10,6 +10,8 @@ import java.util.Optional;
 @Repository
 public interface GameRepository extends MongoRepository<Game, String> {
 
+
+
     Optional<Game> findBySteamAppId(Integer steamAppId);
 
     List<Game> findByTitleContainingIgnoreCase(String title);

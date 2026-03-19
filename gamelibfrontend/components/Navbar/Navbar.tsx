@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import styles from './Navbar.module.css';
+import Image from 'next/image';
 
 export default function Navbar() {
   return (
     <nav className={styles.navbar}>
-      <img src={'../../public/logo.svg'}/>
+      <Image src="/logo.svg" alt="GameLib Logo" width={100} height={50} />
       <div className={styles.navLinks}>
         <Link href="/" className={`${styles.link} ${styles.activeLink}`}>
           Home

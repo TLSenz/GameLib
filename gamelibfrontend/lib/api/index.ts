@@ -49,18 +49,29 @@ export const putJSON = createFetchFunction("PUT")
 export const deleteJSON = createFetchFunction("DELETE")
 export const getJSON = createFetchFunction("GET")
 
-// Mock Data URLs (lokale JSON-Dateien)
-const getBaseUrl = () => {
-  if (typeof window !== 'undefined') {
-    // Client-side
-    return ''
-  }
-  // Server-side: use full URL
-  return process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
-}
+// Backend API Base URL
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8087'
 
-export const BASE_URL = ""
-export const DATA_URLS = {
-  games: (baseUrl?: string) => `${baseUrl || getBaseUrl()}/data/games.json`,
-  comments: (baseUrl?: string) => `${baseUrl || getBaseUrl()}/data/comments.json`
+export const API_ENDPOINTS = {
+  games: {
+    getAll: (limit?: number) => `${BACKEND_URL}/games${limit ? `?numberOfGames=${limit}` : ''}`,
+    getById: (id: string) => `${BACKEND_URL}/games/${id}`,
+    create: () => `${BACKEND_URL}/games`,
+    update: () => `${BACKEND_URL}/games`,
+    delete: (id: string) => `${BACKEND_URL}/games/${id}`
+  },
+  comments: {
+    getAll: (limit?: number) => `${BACKEND_URL}/comments${limit ? `?numberOffCommnets=${limit}` : ''}`,
+    getByGameId: (gameId: string) => `${BACKEND_URL}/comments/games/${gameId}`,
+    getByAchievementId: (achievementId: string) => `${BACKEND_URL}/comments/achievements/${achievementId}`,
+    create: () => `${BACKEND_URL}/comments`,
+    update: () => `${BACKEND_URL}/comments`,
+    delete: () => `${BACKEND_URL}/comments`
+  },
+  achievements: {
+    getByGameId: (gameId: string) => `${BACKEND_URL}/achivement/${gameId}`,
+    create: () => `${BACKEND_URL}/achivement`,
+    update: () => `${BACKEND_URL}/achivement`,
+    delete: () => `${BACKEND_URL}/achivement`
+  }
 }

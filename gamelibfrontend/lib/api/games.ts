@@ -1,41 +1,98 @@
-import { getJSON, DATA_URLS } from './index'
+import { getJSON, postJSON, putJSON, deleteJSON, API_ENDPOINTS } from './index'
 import { Game } from '@/types'
 
+export interface GameDTO {
+  id: string
+  steamAppId: string
+  title: string
+  platforms: string[]
+  storeSnapshot: string
+  description: string
+  shortDescription: string
+  genres: string[]
+  price: number
+  developers: string[]
+  rating: number
+  releaseDate: string
+  lastUpdateAt: string
+  isDLC: boolean
+  baseGameAppId: number
+  earlyAccess: boolean
+  comments?: any[]
+  achievements?: any[]
+}
+
+export interface CreateGameDTO {
+  steamAppId: number
+  title: string
+  platforms: string[]
+  storeSnapshot?: string
+  description: string
+  shortDescription: string
+  genres: string[]
+  price: number
+  developers: string[]
+  rating: number
+  releaseDate: string
+  lastUpdateAt?: string
+  isDLC: boolean
+  baseGameAppId?: number
+  earlyAccess: boolean
+}
+
+export interface UpdateGameDTO extends Partial<CreateGameDTO> {
+  steamAppId: number
+}
+
 export const gamesAPI = {
-  getAll: async () => {
+  getAll: async (limit?: number) => {
     try {
-      return await getJSON(DATA_URLS.games())
+      const url = API_ENDPOINTS.games.getAll(limit)
+      const result = await getJSON(url)
+      return Array.isArray(result) ? result : [result]
     } catch (error) {
       console.error('Failed to fetch games:', error)
       return []
     }
   },
 
-  getById: async (steamAppId: number) => {
+  getById: async (id: string) => {
     try {
-      const games: Game[] = await getJSON(DATA_URLS.games())
-      return games.find(g => g.steamAppId === steamAppId) || null
+      const url = API_ENDPOINTS.games.getById(id)
+      return await getJSON(url)
     } catch (error) {
       console.error('Failed to fetch game:', error)
       return null
     }
   },
 
-  create: async (game: Game, token?: any) => {
-    // Mock: Just add to local state (in real app, would POST to backend)
-    console.log('Mock: Creating game', game)
-    return game
+  create: async (game: CreateGameDTO, token?: any) => {
+    try {
+      const url = API_ENDPOINTS.games.create()
+      return await postJSON(url, { body: game, token })
+    } catch (error) {
+      console.error('Failed to create game:', error)
+      throw error
+    }
   },
 
-  update: async (steamAppId: number, game: Partial<Game>, token?: any) => {
-    // Mock: Just log (in real app, would PUT to backend)
-    console.log('Mock: Updating game', steamAppId, game)
-    return game
+  update: async (game: UpdateGameDTO, token?: any) => {
+    try {
+      const url = API_ENDPOINTS.games.update()
+      return await putJSON(url, { body: game, token })
+    } catch (error) {
+      console.error('Failed to update game:', error)
+      throw error
+    }
   },
 
-  delete: async (steamAppId: number, token?: any) => {
-    // Mock: Just log (in real app, would DELETE from backend)
-    console.log('Mock: Deleting game', steamAppId)
-    return { success: true }
+  delete: async (id: string, token?: any) => {
+    try {
+      const url = API_ENDPOINTS.games.delete(id)
+      return await deleteJSON(url, { token })
+    } catch (error) {
+      console.error('Failed to delete game:', error)
+      throw error
+    }
   }
 }

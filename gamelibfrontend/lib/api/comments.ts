@@ -1,38 +1,93 @@
-import { getJSON, DATA_URLS } from './index'
+import { getJSON, postJSON, putJSON, deleteJSON, API_ENDPOINTS } from './index'
 
-export interface Comment {
-  steamAppId: number;
-  title: string;
-  comment: string;
-  created_at: string;
-  description: string;
-  genres: string[];
-  bewertung: number;
+export interface CommentDTO {
+  id: string
+  gameId: string
+  achievementId?: string
+  title: string
+  comment: string
+  createdAt: string
+  description?: string
+  genres?: string[]
+  bewertung?: number
+}
+
+export interface CreateCommentDTO {
+  gameId: number
+  achievementId?: string
+  title: string
+  comment: string
+  createdAt?: string
+  description?: string
+  genres?: string[]
+  bewertung?: number
+}
+
+export interface UpdateCommentDTO extends Partial<CreateCommentDTO> {
+  gameId: number
 }
 
 export const commentsAPI = {
-  getAll: async () => {
+  getAll: async (limit?: number) => {
     try {
-      return await getJSON(DATA_URLS.comments())
+      const url = API_ENDPOINTS.comments.getAll(limit)
+      const result = await getJSON(url)
+      return Array.isArray(result) ? result : [result]
     } catch (error) {
       console.error('Failed to fetch comments:', error)
       return []
     }
   },
 
-  getByGameId: async (steamAppId: number) => {
+  getByGameId: async (gameId: string) => {
     try {
-      const comments: Comment[] = await getJSON(DATA_URLS.comments())
-      return comments.filter(c => c.steamAppId === steamAppId)
+      const url = API_ENDPOINTS.comments.getByGameId(gameId)
+      const result = await getJSON(url)
+      return Array.isArray(result) ? result : [result]
     } catch (error) {
-      console.error('Failed to fetch comments:', error)
+      console.error('Failed to fetch comments for game:', error)
       return []
     }
   },
 
-  create: async (comment: Comment, token?: any) => {
-    // Mock: Just log (in real app, would POST to backend)
-    console.log('Mock: Creating comment', comment)
-    return comment
+  getByAchievementId: async (achievementId: string) => {
+    try {
+      const url = API_ENDPOINTS.comments.getByAchievementId(achievementId)
+      const result = await getJSON(url)
+      return Array.isArray(result) ? result : [result]
+    } catch (error) {
+      console.error('Failed to fetch comments for achievement:', error)
+      return []
+    }
+  },
+
+  create: async (comment: CreateCommentDTO, token?: any) => {
+    try {
+      const url = API_ENDPOINTS.comments.create()
+      return await postJSON(url, { body: comment, token })
+    } catch (error) {
+      console.error('Failed to create comment:', error)
+      throw error
+    }
+  },
+
+  update: async (comment: UpdateCommentDTO, token?: any) => {
+    try {
+      const url = API_ENDPOINTS.comments.update()
+      return await putJSON(url, { body: comment, token })
+    } catch (error) {
+      console.error('Failed to update comment:', error)
+      throw error
+    }
+  },
+
+  delete: async (commentId: string, token?: any) => {
+    try {
+      const url = API_ENDPOINTS.comments.delete()
+      return await deleteJSON(url, { body: commentId, token })
+    } catch (error) {
+      console.error('Failed to delete comment:', error)
+      throw error
+    }
   }
 }

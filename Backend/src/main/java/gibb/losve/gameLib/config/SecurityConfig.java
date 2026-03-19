@@ -1,6 +1,7 @@
 package gibb.losve.gameLib.config;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -12,20 +13,21 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final OauthSuccessHandler successHandler;
+    @Value("${config.redirect-uri}")
+    private String redirectUri;
 
-    public SecurityConfig(OauthSuccessHandler successHandler) {
-        this.successHandler = successHandler;
-    }
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity security, OauthSuccessHandler oauthSuccessHandler) {
+    public SecurityFilterChain filterChain(HttpSecurity security) {
         security
                 .authorizeHttpRequests((authorize) ->
                         authorize
+                                .requestMatchers("/swagger-ui").permitAll()
                                 .anyRequest().authenticated()
-                ).oauth2Login(oauth -> oauth.successHandler(successHandler));
+                ).oauth2Login(oauth -> oauth.successHandler(((request, response, authentication) -> {
+                    response.sendRedirect(redirectUri);
+                })));
         return security.build();
     }
 

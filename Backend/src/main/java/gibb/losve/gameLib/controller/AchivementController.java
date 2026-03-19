@@ -36,7 +36,7 @@ public class AchivementController {
     })
     @GetMapping("/{gameID}")
     public ResponseEntity<List<AchievementDTO>> getAchievementsByID(
-            @Parameter(description = "Game ID", required = true) @PathVariable int gameID) {
+            @Parameter(description = "Game ID", required = true) @PathVariable String gameID) {
         try {
            return ResponseEntity.ok(achievementService.getAchievementsByGameId(String.valueOf(gameID)));
         }

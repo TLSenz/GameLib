@@ -1,10 +1,7 @@
 package gibb.losve.gameLib.dto.achivement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.math.BigDecimal;
@@ -17,6 +14,7 @@ import java.math.BigDecimal;
 public class CreateAchievementDTO {
 
     @Field("gameId")
+    @NonNull
     @Schema(description = "Game ID associated with this achievement", example = "1091500")
     private Integer gameId;
 

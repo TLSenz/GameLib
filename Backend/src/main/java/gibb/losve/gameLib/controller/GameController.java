@@ -55,6 +55,22 @@ public class GameController {
         }
     }
 
+    @Operation(summary = "Search games by title", description = "Case-insensitive search on game titles")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved games"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<List<GameDTO>> searchGames(
+            @Parameter(description = "Title (or part of it) to search for", required = true)
+            @RequestParam String title) {
+        try {
+            return ResponseEntity.ok(gameService.searchGamesByTitle(title));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @Operation(summary = "Get game by ID", description = "Retrieves a specific game by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Game found", 

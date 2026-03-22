@@ -33,6 +33,11 @@ public class gameService {
         return gameRepository.findAll(pageable).map(gameMapper::toDTO);
     }
 
+    public List<GameDTO> searchGamesByTitle(String title) {
+        return gameRepository.findByTitleContainingIgnoreCase(title)
+                .stream().map(gameMapper::toDTO).toList();
+    }
+
     public GameDTO getGameBySteamAppId(int steamAppId) {
         return gameRepository.findBySteamAppId(steamAppId).map(game -> gameMapper.toDTO(game)).orElseThrow(() -> new NoSuchElementException("Game Not Found"));
     }

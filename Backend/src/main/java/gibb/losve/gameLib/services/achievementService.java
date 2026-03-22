@@ -7,6 +7,7 @@ import gibb.losve.gameLib.mapper.AchievementMapper;
 import gibb.losve.gameLib.model.Achievement;
 import gibb.losve.gameLib.repository.AchievementRepository;
 import gibb.losve.gameLib.repository.GameRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class achievementService {
     }
 
     public List<AchievementDTO> getAchievementsByGameId(String gameId) {
-        return achievementRepository.findByGameId(gameId).stream()
+        return achievementRepository.findByGameId(new ObjectId(gameId)).stream()
                 .map(achievement -> achievementMapper.toDTO(achievement))
                 .toList();
     }

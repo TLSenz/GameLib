@@ -1,6 +1,7 @@
 package gibb.losve.gameLib.dto.comment;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 public class CreateCommentDTO {
 
     @Field("gameId")
+    @NotNull
     @Schema(description = "Game ID associated with this comment", example = "1091500")
     private Integer gameId;
 

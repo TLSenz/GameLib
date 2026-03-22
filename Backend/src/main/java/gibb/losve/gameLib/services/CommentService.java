@@ -41,7 +41,7 @@ public class CommentService {
     }
 
     public List<CommentDTO> getCommentsByAchievementId(String achievementId) {
-        return commentRepository.findByAchievementId(achievementId).stream()
+        return commentRepository.findByAchievementId(new ObjectId(achievementId)).stream()
                 .map(comment -> commentMapper.toDTO(comment))
                 .toList();
     }

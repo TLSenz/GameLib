@@ -26,7 +26,7 @@ public interface AchievementMapper {
     }
 
     default String map(ObjectId value) {
-        return value != null ? value.toHexString() : null;
+        return value != null ? value.toString() : null;
     }
 
 }

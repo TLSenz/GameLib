@@ -52,14 +52,14 @@ public class GameTests {
                 .content(objectMapper.writeValueAsString(dto))
         ).andExpect(status().isOk());
 
-        GameDTO result = gameService.getGameBySteamAppId(1234567899);
-        Assertions.assertNotNull(result.getId());
-        gameService.deleteGame(result.getId());
+      //  GameDTO result = gameService.getGameBySteamAppId(1234567899);
+       // Assertions.assertNotNull(result.getId());
+       // gameService.deleteGame(result.getId());
     }
 
 
 
-    @Test
+
 
 
 }

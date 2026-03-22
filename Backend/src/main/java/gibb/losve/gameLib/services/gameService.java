@@ -7,6 +7,8 @@ import gibb.losve.gameLib.mapper.GameMapper;
 import gibb.losve.gameLib.model.Game;
 import gibb.losve.gameLib.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +27,10 @@ public class gameService {
 
     public List<GameDTO> getAllGames(int numberOfGames) {
         return gameRepository.findAll().stream().map(game -> gameMapper.toDTO(game)).limit(numberOfGames).toList();
+    }
+
+    public Page<GameDTO> getAllGames(Pageable pageable) {
+        return gameRepository.findAll(pageable).map(gameMapper::toDTO);
     }
 
     public GameDTO getGameBySteamAppId(int steamAppId) {

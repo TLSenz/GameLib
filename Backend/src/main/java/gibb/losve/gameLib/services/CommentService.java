@@ -66,7 +66,7 @@ public class CommentService {
 
     }
 
-    public void createCommentGame(CreateCommentDTO comment) {
+    public void     createCommentGame(CreateCommentDTO comment) {
         if (gameService.doesGameExist(comment.getGameId())){
             Comment mappedComment = commentMapper.toEntity(comment);
             commentRepository.save(mappedComment);

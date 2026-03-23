@@ -2,13 +2,13 @@ package gibb.losve.gameLib.pipeline.steam.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-// Root wrapper
+// Root wrapper - Steam appdetails returns { "<appId>": { success: ..., data: ... } }
+// Use a Map<String, SteamAppWrapperDto> at call site to handle dynamic key
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SteamAppResponseDto {
-    @JsonProperty("1172470")
-    private SteamAppWrapperDto app;
+    private String appId;
+    private SteamAppWrapperDto wrapper;
 }

@@ -55,6 +55,8 @@ public class GameController {
         }
     }
 
+  //  public ResponseEntity<?> getAllGames()
+
     @Operation(summary = "Search games by title", description = "Case-insensitive search on game titles")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved games"),

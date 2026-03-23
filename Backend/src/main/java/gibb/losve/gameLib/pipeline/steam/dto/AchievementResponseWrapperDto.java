@@ -1,16 +1,13 @@
 package gibb.losve.gameLib.pipeline.steam.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class    AvailableGameStatsDto {
-    private List<GameStatDto> achievements;
+public class AchievementResponseWrapperDto {
+    private GameDto game;
 }

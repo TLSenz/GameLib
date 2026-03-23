@@ -22,4 +22,5 @@ public interface GameMapper   {
 
         void updateEntityFromDto(UpdateGameDTO dto, @MappingTarget Game entity);
 
+
 }

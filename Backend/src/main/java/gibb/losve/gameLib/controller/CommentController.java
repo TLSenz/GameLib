@@ -95,7 +95,7 @@ public class CommentController {
                 content = @Content(schema = @Schema(implementation = CreateCommentDTO.class))
             ) @RequestBody CreateCommentDTO comment) {
         try {
-            commentService.createComment(comment);
+            commentService.createCommentGame(comment);
             return ResponseEntity.ok().build();
         }
         catch (Exception e) {

@@ -16,7 +16,7 @@ public class CreateAchievementDTO {
     @Field("gameId")
     @NonNull
     @Schema(description = "Game ID associated with this achievement", example = "1091500")
-    private Integer gameId;
+    private String gameId;
 
     @Schema(description = "Achievement title", example = "First Blood")
     private String title;

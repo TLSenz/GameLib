@@ -5,11 +5,11 @@ import org.springframework.web.client.RestClient;
 
 public class SteamClient {
 
-    @Value("${steam.api_url}")
+ /*   @Value("${steam.api_url}")
     private final String uri_base;
 
     @Value("${steam.api_key}")
-    private final String api_key;
+    private final String api_key; */
 
 
 
@@ -19,7 +19,7 @@ public class SteamClient {
 
 
         String result = client.get()
-                .uri(uri_base + "/getAllGames")
+                .uri("/getAllGames")
                 .retrieve()
                 .body(String.class);
     }
@@ -31,7 +31,7 @@ public class SteamClient {
         RestClient client = RestClient.create();
 
         String result = client.get()
-                .uri(uri_base + "/getAchimentForGame")
+                .uri( "/getAchimentForGame")
                 .retrieve()
                 .body(String.class);
     }

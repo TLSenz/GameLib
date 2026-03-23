@@ -7,6 +7,7 @@ import gibb.losve.gameLib.dto.comment.UpdateCommentDTO;
 import gibb.losve.gameLib.model.Comment;
 import org.bson.types.ObjectId;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
@@ -24,4 +25,6 @@ public interface CommentMapper {
     default String map(ObjectId value) {
         return value != null ? value.toHexString() : null;
     }
+
+    void updateEntityFromDto(UpdateCommentDTO dto, @MappingTarget Comment entity);
 }

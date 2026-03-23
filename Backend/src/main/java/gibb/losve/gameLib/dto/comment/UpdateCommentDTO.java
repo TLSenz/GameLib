@@ -1,8 +1,8 @@
 package gibb.losve.gameLib.dto.comment;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -12,11 +12,8 @@ import java.util.List;
 @Schema(description = "DTO for updating an existing comment")
 public class UpdateCommentDTO {
 
-
         @Id
-        @NotNull
-        @Schema(description = "Game ID", example = "507f1f77bcf86cd799439011")
-        private String id;
+        private ObjectId id;
 
         @Field("gameId")
         @Schema(description = "Game ID associated with this comment", example = "1091500")

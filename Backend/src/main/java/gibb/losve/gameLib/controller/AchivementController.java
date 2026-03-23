@@ -27,7 +27,7 @@ public class AchivementController {
     @Autowired
     achievementService achievementService;
 
-    @Operation(summary = "Get achievements by game ID", description = "Retrieves all achievements for a specific game")
+    @Operation(summary = "Get achievements by game ID", description = "Retrieves all achievements for a specific game. Please check that you use the Game ID and not the steamAppId")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Achievements found", 
                          content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, 
@@ -38,7 +38,7 @@ public class AchivementController {
     public ResponseEntity<List<AchievementDTO>> getAchievementsByID(
             @Parameter(description = "Game ID", required = true) @PathVariable String gameID) {
         try {
-           return ResponseEntity.ok(achievementService.getAchievementsByGameId(String.valueOf(gameID)));
+           return ResponseEntity.ok(achievementService.getAchievementsByGameId(gameID));
         }
         catch (Exception e) {
             return ResponseEntity.internalServerError().build();

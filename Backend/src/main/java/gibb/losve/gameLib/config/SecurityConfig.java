@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -26,10 +27,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity security) {
         security.cors(cors -> {
             cors.configurationSource(corsConfigurationSource());
-                })
+                }).csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize) ->
                         authorize
-                                .requestMatchers("/swagger-ui").permitAll()
+                                .requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated()
                 ).oauth2Login(oauth -> oauth.successHandler(((request, response, authentication) -> {
                     response.sendRedirect(redirectUri);

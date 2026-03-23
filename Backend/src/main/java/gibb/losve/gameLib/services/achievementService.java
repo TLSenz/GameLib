@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class achievementService {
@@ -38,14 +39,23 @@ public class achievementService {
                 .toList();
     }
 
-   public void createAchievement(CreateAchievementDTO achievement) {
+    public void createAchievement(CreateAchievementDTO achievement) {
         Achievement mappedAchievement = achievementMapper.toEntity(achievement);
         achievementRepository.save(mappedAchievement);
     }
 
     public void updateAchievement(UpdateAchievementDTO achievement) {
-        Achievement updatedAchievement = achievementMapper.toEntity(achievement);
-        achievementRepository.save(updatedAchievement);
+        Achievement existing = achievementRepository
+                .findById(achievement.getId())
+                .orElseThrow(() -> new NoSuchElementException("Achievement not found"));
+
+        achievementMapper.updateEntityFromDto(achievement, existing);
+
+        achievementRepository.save(existing);
+    }
+
+    public boolean doesAchievementExist(String id){
+        return achievementRepository.findById(id).isPresent();
     }
 
     public void deleteAchievement(String id) {

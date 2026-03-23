@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,23 +30,43 @@ public class GameController {
     gameService gameService;
 
 
-    @Operation(summary = "Get all games", description = "Retrieves a list of games with optional limit")
+    @Operation(summary = "Get all games", description = "Retrieves a list of games with optional limit or pagination. Use 'page' and 'size' query params for pagination.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved games", 
                          content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, 
                          schema = @Schema(implementation = GameDTO.class)))
     })
     @GetMapping
-    public ResponseEntity<List<GameDTO>> getAllGames(
-            @Parameter(description = "Maximum number of games to return") 
-            @RequestParam(defaultValue = "100") int numberOfGames) {
+    public ResponseEntity<?> getAllGames(
+            @Parameter(description = "Maximum number of games to return (used when no pagination params are provided)") 
+            @RequestParam(defaultValue = "100") int numberOfGames,
+            Pageable pageable) {
         try {
+            if (pageable.isPaged()) {
+                return ResponseEntity.ok(gameService.getAllGames(pageable));
+            }
             return ResponseEntity.ok(gameService.getAllGames(numberOfGames));
         }
         catch (NoSuchFieldError e) {
             return ResponseEntity.notFound().build();
         }
         catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @Operation(summary = "Search games by title", description = "Case-insensitive search on game titles")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved games"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<List<GameDTO>> searchGames(
+            @Parameter(description = "Title (or part of it) to search for", required = true)
+            @RequestParam String title) {
+        try {
+            return ResponseEntity.ok(gameService.searchGamesByTitle(title));
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }

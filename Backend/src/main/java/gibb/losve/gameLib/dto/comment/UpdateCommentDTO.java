@@ -13,14 +13,15 @@ import java.util.List;
 public class UpdateCommentDTO {
 
         @Id
+        @Schema(description = "Mogngo DB Id, has to be real ObjectID", example = "507f1f77bcf86cd799439011")
         private ObjectId id;
 
         @Field("gameId")
-        @Schema(description = "Game ID associated with this comment", example = "1091500")
-        private Integer gameId;
+        @Schema(description = "Game ID associated with this comment, not Steam ID", example = "507f1f77bcf86cd799439011")
+        private String gameId;
 
         @Field("achievementId")
-        @Schema(description = "Achievement ID associated with this comment")
+        @Schema(description = "Achievement ID associated with this comment", example = "507f1f77bcf86cd799439011")
         private String achievementId;
 
         @Schema(description = "Comment title", example = "Great game!")

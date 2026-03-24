@@ -32,7 +32,7 @@ public interface AchievementMapper {
     }
 
 
-    @Mapping(source = "name", target = "title")
+    @Mapping(source = "displayName", target = "title")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "icon", target = "storeSnapshot")
     @Mapping(target = "id", ignore = true)
@@ -42,7 +42,7 @@ public interface AchievementMapper {
 
 
 
-    @Mapping(source = "name", target = "title")
+    @Mapping(source = "displayName", target = "title")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "icon", target = "storeSnapshot")
     @Mapping(target = "gameId", ignore = true)

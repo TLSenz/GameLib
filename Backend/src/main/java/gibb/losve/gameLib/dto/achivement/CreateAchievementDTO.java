@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 public class CreateAchievementDTO {
 
     @Field("gameId")
-    @NonNull
     @Schema(description = "Game ID associated with this achievement", example = "1091500")
     private String gameId;
 

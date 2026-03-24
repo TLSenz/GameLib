@@ -23,7 +23,7 @@ public class Game {
     @Id
     private String id; // MongoDB auto-generated ObjectId
 
-    private String steamAppId; // no longer the @Id
+    private Integer steamAppId; // no longer the @Id
 
     @Nullable
     private String title;

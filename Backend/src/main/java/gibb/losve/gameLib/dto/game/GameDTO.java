@@ -29,7 +29,7 @@ public class GameDTO {
     @Id
     @Field("steamAppId")
     @Schema(description = "Steam application ID", example = "1091500")
-    private String steamAppId;
+    private Integer steamAppId;
 
     @Schema(description = "Game title", example = "Cyberpunk 2077")
     private String title;

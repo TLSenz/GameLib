@@ -18,7 +18,7 @@ public class SteamNormalizer {
         }
 
         Game game = new Game();
-        game.setSteamAppId(String.valueOf(dto.getSteamAppid()));
+        game.setSteamAppId(dto.getSteamAppid());
         game.setTitle(dto.getName());
         game.setDescription(dto.getDetailedDescription());
         game.setShortDescription(dto.getShortDescription());

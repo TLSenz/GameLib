@@ -102,7 +102,7 @@ public class GameIngestionService {
         if (url == null) {
             return null;
         }
-        Pattern pattern = Pattern.compile("/app/(\\d+)");
+        Pattern pattern = Pattern.compile("/apps/(\\d+)");
         Matcher matcher = pattern.matcher(url);
         if (matcher.find()) {
             return matcher.group(1);

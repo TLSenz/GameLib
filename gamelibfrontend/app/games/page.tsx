@@ -1,21 +1,38 @@
 'use client';
 
 import Navbar from '@/components/Navbar/Navbar';
-import Link from 'next/link';
-import styles from './page.module.css';
+import GameRow from '@/components/GameRow/GameRow';
+import styles from './games.module.css';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { Game } from '@/types';
 import { gamesAPI } from '@/lib/api/games';
+import { achievementsAPI } from '@/lib/api/achievements';
 
 const GAMES_PER_PAGE = 20;
 
-export default function Home() {
+export default function GamesPage() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [achievementCounts, setAchievementCounts] = useState<{ [key: string]: number }>({});
   const observerTarget = useRef<HTMLDivElement>(null);
+
+  const fetchAchievementCounts = useCallback(async (gamesToFetch: Game[]) => {
+    const counts: { [key: string]: number } = {};
+    for (const game of gamesToFetch) {
+      if (game.id) {
+        try {
+          const achievements = await achievementsAPI.getByGameId(game.id);
+          counts[String(game.steamAppId)] = Array.isArray(achievements) ? achievements.length : 0;
+        } catch {
+          counts[String(game.steamAppId)] = 0;
+        }
+      }
+    }
+    setAchievementCounts(prev => ({ ...prev, ...counts }));
+  }, []);
 
   const fetchGames = useCallback(async (pageNum: number) => {
     if (loading) return;
@@ -29,6 +46,7 @@ export default function Home() {
         setGames(prev => [...prev, ...data.content]);
       }
       
+      await fetchAchievementCounts(data.content);
       setHasMore(!data.last);
       setPage(pageNum + 1);
     } catch (err) {
@@ -39,7 +57,7 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, [loading]);
+  }, [loading, fetchAchievementCounts]);
 
   useEffect(() => {
     fetchGames(0);
@@ -66,40 +84,25 @@ export default function Home() {
     return (
       <div className={styles.container}>
         <Navbar />
+        <h1 className={styles.title}>Meine Spiele</h1>
         <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
       </div>
     );
   }
 
-  const totalAchievements = games.length * 30; // Mock calculation
-  const totalTutorials = Math.round(games.length * 3.5);
-
   return (
     <div className={styles.container}>
       <Navbar />
-      <header className={styles.hero}>
-        <h1 className={styles.heroTitle}>Steam Game Library</h1>
-      </header>
-
-      <div className={styles.statsGrid}>
-        <div className={styles.statCard}><div className={styles.statNumber}>{games.length}</div><div className={styles.statLabel}>Games</div></div>
-        <div className={styles.statCard}><div className={styles.statNumber}>{totalAchievements}</div><div className={styles.statLabel}>Achievements</div></div>
-        <div className={styles.statCard}><div className={styles.statNumber}>{totalTutorials}</div><div className={styles.statLabel}>Tutorials</div></div>
-      </div>
-
-      <h2 style={{ marginBottom: '1.5rem' }}>Deine Spiele ({games.length})</h2>
-      <div className={styles.gamesGrid}>
+      <h1 className={styles.title}>Meine Spiele ({games.length})</h1>
+      
+      <div className={styles.gamesList}>
         {games.map(game => (
-          <Link href={`/game/${game.steamAppId}`} key={game.steamAppId} className={styles.gameCard}>
-            <div className={styles.gameImage} style={{ backgroundImage: `url(${game.storeSnapshot || 'https://via.placeholder.com/300x150'})` }} />
-            <div className={styles.gameInfo}>
-              <div className={styles.gameTitle}>{game.title}</div>
-              <div className={styles.gameMeta}>
-                <span>⭐ {game.rating}</span>
-                <span>${game.price}</span>
-              </div>
-            </div>
-          </Link>
+          <GameRow
+            key={game.steamAppId}
+            game={game}
+            achievementsCount={achievementCounts[String(game.steamAppId)] || 0}
+            percentage={0}
+          />
         ))}
       </div>
 

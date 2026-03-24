@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './GameRow.module.css';
-import { Game } from '../../types'; // Importiere deine Types!
+import { Game } from '@/types';
 
 interface GameRowProps {
   game: Game;

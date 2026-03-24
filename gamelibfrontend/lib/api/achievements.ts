@@ -2,7 +2,7 @@ import { getJSON, postJSON, putJSON, deleteJSON, API_ENDPOINTS } from './index'
 
 export interface AchievementDTO {
   id: string
-  gameId: number
+  gameId: string
   title: string
   storeSnapshot: string
   description: string
@@ -10,7 +10,7 @@ export interface AchievementDTO {
 }
 
 export interface CreateAchievementDTO {
-  gameId: number
+  gameId: string
   title: string
   storeSnapshot?: string
   description: string
@@ -19,7 +19,7 @@ export interface CreateAchievementDTO {
 
 export interface UpdateAchievementDTO extends Partial<CreateAchievementDTO> {
   id: string
-  gameId: number
+  gameId: string
 }
 
 export const achievementsAPI = {
@@ -27,6 +27,10 @@ export const achievementsAPI = {
     try {
       const url = API_ENDPOINTS.achievements.getByGameId(gameId)
       const result = await getJSON(url)
+      // Handle Spring Data REST pagination response
+      if (result.content && Array.isArray(result.content)) {
+        return result.content
+      }
       return Array.isArray(result) ? result : [result]
     } catch (error) {
       console.error('Failed to fetch achievements for game:', error)

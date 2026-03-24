@@ -1,4 +1,4 @@
-import { getJSON, postJSON, putJSON, deleteJSON, API_ENDPOINTS } from './index'
+import { getJSON, postJSON, postNoJSON, putJSON, deleteJSON, API_ENDPOINTS } from './index'
 
 export interface CommentDTO {
   id: string
@@ -13,18 +13,18 @@ export interface CommentDTO {
 }
 
 export interface CreateCommentDTO {
-  gameId: number
+  gameId: string
   achievementId?: string
   title: string
   comment: string
-  createdAt?: string
+  createdAt: string
   description?: string
   genres?: string[]
-  bewertung?: number
+  bewertung: number
 }
 
 export interface UpdateCommentDTO extends Partial<CreateCommentDTO> {
-  gameId: number
+  gameId: string
 }
 
 export const commentsAPI = {
@@ -64,7 +64,7 @@ export const commentsAPI = {
   create: async (comment: CreateCommentDTO, token?: any) => {
     try {
       const url = API_ENDPOINTS.comments.create()
-      return await postJSON(url, { body: comment, token })
+      return await postNoJSON(url, { body: comment, token })
     } catch (error) {
       console.error('Failed to create comment:', error)
       throw error

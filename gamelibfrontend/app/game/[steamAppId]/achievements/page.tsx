@@ -1,25 +1,79 @@
-"use client";
-import { useState } from 'react';
+'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import Navbar from '@/components/Navbar/Navbar';
+import { gamesAPI } from '@/lib/api/games';
+import { achievementsAPI } from '@/lib/api/achievements';
 
-const mockAch = [
-  { id: 'a1', title: 'First Blood', desc: 'Get your first kill' },
-  { id: 'a2', title: 'Ace!', desc: 'Kill the entire enemy team' },
-];
-
-export default function GameAchievementsPage({ params }: { params: { steamAppId: string } }) {
+export default function GameAchievementsPage() {
+  const params = useParams();
+  const steamAppId = params?.steamAppId as string;
+  
   const [search, setSearch] = useState('');
+  const [achievements, setAchievements] = useState<any[]>([]);
+  const [gameTitle, setGameTitle] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch game by steamAppId to get internal ID and title
+        const game = await gamesAPI.getByStreamAppId(parseInt(steamAppId));
+        if (!game) {
+          setError('Spiel nicht gefunden');
+          setLoading(false);
+          return;
+        }
+
+        setGameTitle(game.title);
+
+        // Fetch achievements by internal game ID
+        const achievementsData = await achievementsAPI.getByGameId(game.id);
+        setAchievements(Array.isArray(achievementsData) ? achievementsData : []);
+      } catch (err) {
+        console.error('Failed to load achievements:', err);
+        setError('Fehler beim Laden der Achievements');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (steamAppId) {
+      fetchData();
+    }
+  }, [steamAppId]);
 
   // Suchfilter-Logik
-  const filteredAchievements = mockAch.filter(ach => 
-    ach.title.toLowerCase().includes(search.toLowerCase())
+  const filteredAchievements = achievements.filter(ach => 
+    ach.title?.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div style={{ padding: '0 2rem', maxWidth: '800px', margin: '0 auto' }}>
+        <Navbar />
+        <h1>Wird geladen...</h1>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: '0 2rem', maxWidth: '800px', margin: '0 auto' }}>
+        <Navbar />
+        <h1 style={{ color: 'red' }}>{error}</h1>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: '0 2rem', maxWidth: '800px', margin: '0 auto' }}>
       <Navbar />
-      <h1 style={{ marginBottom: '1rem' }}>Achievements für Spiel {params.steamAppId}</h1>
+      <h1 style={{ marginBottom: '1rem' }}>Achievements für {gameTitle || 'Spiel'} ({achievements.length})</h1>
       
       {/* Search Bar */}
       <input 
@@ -32,13 +86,14 @@ export default function GameAchievementsPage({ params }: { params: { steamAppId:
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {filteredAchievements.map(ach => (
-          <Link key={ach.id} href={`/game/${params.steamAppId}/achievements/${ach.id}`} 
-                style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between' }}>
+          <Link key={ach.id} href={`/game/${steamAppId}/achievements/${ach.id}`} 
+                style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
             <div>
-              <h3>{ach.title}</h3>
-              <p style={{ color: 'var(--text-muted)' }}>{ach.desc}</p>
+              <h3 style={{ margin: '0 0 0.5rem 0' }}>{ach.title}</h3>
+              {ach.description && <p style={{ color: 'var(--text-muted)', margin: 0 }}>{ach.description}</p>}
+              {ach.rarity && <p style={{ color: 'var(--accent-yellow)', margin: '0.5rem 0 0 0', fontSize: '0.85rem' }}>Seltenheit: {(ach.rarity * 100).toFixed(1)}%</p>}
             </div>
-            <span style={{ color: 'var(--accent-blue)' }}>Tutorials ansehen</span>
+            <span style={{ color: 'var(--accent-blue)', whiteSpace: 'nowrap', marginLeft: '1rem' }}>→</span>
           </Link>
         ))}
         {filteredAchievements.length === 0 && <p>Keine Achievements gefunden.</p>}

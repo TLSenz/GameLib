@@ -2,23 +2,21 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar/Navbar';
 import CommentSection from '@/components/CommentSection/CommentSection';
 import { gamesAPI } from '@/lib/api/games';
-import { commentsAPI, type Comment } from '@/lib/api/comments';
+import { commentsAPI } from '@/lib/api/comments';
 
 async function fetchGameData(steamAppId: number) {
     try {
-        // Fetch all games and find by steamAppId
-        const allGames = await gamesAPI.getAll();
-        const game = Array.isArray(allGames)
-            ? allGames.find(g => g.steamAppId === steamAppId)
-            : null;
+        // Fetch game by steamAppId using API
+        const game = await gamesAPI.getByStreamAppId(steamAppId);
+        
+        if (!game) {
+            return { game: null, gameComments: [] };
+        }
 
-        // Fetch comments for this game
-        let gameComments: Comment[] = [];
+        // Fetch comments for this game using the internal game ID
+        let gameComments = [];
         try {
-            const allComments = await commentsAPI.getAll();
-            gameComments = Array.isArray(allComments)
-                ? allComments.filter(c => c.steamAppId === steamAppId)
-                : [];
+            gameComments = await commentsAPI.getByGameId(game.id);
         } catch (error) {
             console.error('Failed to load comments:', error);
         }
@@ -61,7 +59,7 @@ export default async function GameDetailPage({ params }: { params: Promise<{ ste
                             {game.releaseDate ? <span>📅 {new Date(game.releaseDate).toLocaleDateString()}</span> : null}
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-                            {game.genres?.map(genre => (
+                            {game.genres && game.genres.map((genre: string) => (
                                 <span key={genre} style={{ background: 'rgba(102, 126, 234, 0.3)', padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.85rem' }}>{genre}</span>
                             ))}
                         </div>
@@ -74,7 +72,7 @@ export default async function GameDetailPage({ params }: { params: Promise<{ ste
             </div>
 
             {/* Comments Section */}
-            <CommentSection initialComments={gameComments} steamAppId={game.steamAppId} />
+            <CommentSection initialComments={gameComments} gameId={game.id} />
         </div>
     );
 }

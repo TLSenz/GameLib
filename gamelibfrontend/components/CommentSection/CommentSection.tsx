@@ -1,15 +1,16 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import styles from './CommentSection.module.css';
-import { commentsAPI, type Comment } from '@/lib/api/comments';
+import { commentsAPI, CreateCommentDTO } from '@/lib/api/comments';
+import { type Comment } from '@/types';
 
 interface CommentSectionProps {
   initialComments?: Comment[];
-  steamAppId?: number;
+  gameId?: string;
 }
 
-export default function CommentSection({ initialComments = [], steamAppId }: CommentSectionProps) {
-  const [comments, setComments] = useState<Comment[]>(initialComments);
+export default function CommentSection({ initialComments = [], gameId }: CommentSectionProps) {
+  const [comments, setComments] = useState<CreateCommentDTO[]>(initialComments);
   const [commentText, setCommentText] = useState('');
   const [commentTitle, setCommentTitle] = useState('');
   const [rating, setRating] = useState(5);
@@ -21,14 +22,14 @@ export default function CommentSection({ initialComments = [], steamAppId }: Com
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (commentText.trim() && commentTitle.trim() && steamAppId) {
+    if (commentText.trim() && commentTitle.trim() && gameId) {
       setIsSubmitting(true);
       try {
-        const newComment: Comment = {
-          steamAppId,
+        const newComment: CreateCommentDTO = {
+          gameId: gameId,
           title: commentTitle,
           comment: commentText,
-          created_at: new Date().toISOString(),
+          createdAt: new Date().toISOString(),
           description: 'User review',
           genres: [],
           bewertung: rating
@@ -98,7 +99,7 @@ export default function CommentSection({ initialComments = [], steamAppId }: Com
               </div>
               <p style={{ margin: '0.5rem 0', fontSize: '0.9rem', color: 'var(--text-muted)' }}>{c.description}</p>
               <p style={{ margin: '0.5rem 0' }}>{c.comment}</p>
-              <small style={{ color: 'var(--text-muted)' }}>{new Date(c.created_at).toLocaleDateString()}</small>
+              <small style={{ color: 'var(--text-muted)' }}>{new Date(c.createdAt).toLocaleDateString()}</small>
             </div>
           ))
         )}

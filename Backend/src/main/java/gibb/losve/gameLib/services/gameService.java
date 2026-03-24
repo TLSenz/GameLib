@@ -32,6 +32,9 @@ public class gameService {
     public Page<GameDTO> getAllGames(Pageable pageable) {
         return gameRepository.findAll(pageable).map(gameMapper::toDTO);
     }
+    public int getNumberOfGames(){
+        return Math.toIntExact(gameRepository.count());
+    }
 
     public List<GameDTO> searchGamesByTitle(String title) {
         return gameRepository.findByTitleContainingIgnoreCase(title)

@@ -48,6 +48,10 @@ public class CommentService {
                 .toList();
     }
 
+    public int getNumberOfComments(){
+        return Math.toIntExact(commentRepository.count());
+    }
+
     public List<CommentDTO> getCommentsByAchievementId(String achievementId) {
         return commentRepository.findByAchievementId(new ObjectId(achievementId)).stream()
                 .map(comment -> commentMapper.toDTO(comment))

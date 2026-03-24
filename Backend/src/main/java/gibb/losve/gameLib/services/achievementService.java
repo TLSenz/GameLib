@@ -39,6 +39,10 @@ public class achievementService {
                 .toList();
     }
 
+    public int getNumberOfAchievements(){
+        return Math.toIntExact(achievementRepository.count());
+    }
+
     public void createAchievement(CreateAchievementDTO achievement) {
         Achievement mappedAchievement = achievementMapper.toEntity(achievement);
         achievementRepository.save(mappedAchievement);

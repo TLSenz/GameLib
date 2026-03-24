@@ -93,12 +93,12 @@ export default function GamesPage() {
   return (
     <div className={styles.container}>
       <Navbar />
-      <h1 className={styles.title}>Meine Spiele ({games.length})</h1>
+      <h1 className={styles.title}>Spiele ({games.length})</h1>
       
       <div className={styles.gamesList}>
         {games.map(game => (
           <GameRow
-            key={game.steamAppId}
+            key={game.id}
             game={game}
             achievementsCount={achievementCounts[String(game.steamAppId)] || 0}
             percentage={0}

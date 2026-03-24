@@ -13,7 +13,7 @@ export interface CommentDTO {
 }
 
 export interface CreateCommentDTO {
-  gameId: string
+  gameId?: string
   achievementId?: string
   title: string
   comment: string

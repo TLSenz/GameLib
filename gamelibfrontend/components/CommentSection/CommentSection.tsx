@@ -7,9 +7,11 @@ import { type Comment } from '@/types';
 interface CommentSectionProps {
   initialComments?: Comment[];
   gameId?: string;
+  achievementId?: string;
+  isAchievementTutorial?: boolean;
 }
 
-export default function CommentSection({ initialComments = [], gameId }: CommentSectionProps) {
+export default function CommentSection({ initialComments = [], gameId, achievementId, isAchievementTutorial = false }: CommentSectionProps) {
   const [comments, setComments] = useState<CreateCommentDTO[]>(initialComments);
   const [commentText, setCommentText] = useState('');
   const [commentTitle, setCommentTitle] = useState('');
@@ -22,15 +24,16 @@ export default function CommentSection({ initialComments = [], gameId }: Comment
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (commentText.trim() && commentTitle.trim() && gameId) {
+    if (commentText.trim() && commentTitle.trim() && (isAchievementTutorial ? achievementId : gameId)) {
       setIsSubmitting(true);
       try {
         const newComment: CreateCommentDTO = {
-          gameId: gameId,
+          ...(isAchievementTutorial ? {} : { gameId: gameId }),
+          achievementId: achievementId,
           title: commentTitle,
           comment: commentText,
           createdAt: new Date().toISOString(),
-          description: 'User review',
+          description: isAchievementTutorial ? 'Tutorial' : 'User review',
           genres: [],
           bewertung: rating
         };
@@ -54,7 +57,7 @@ export default function CommentSection({ initialComments = [], gameId }: Comment
 
   return (
     <div className={styles.commentSection}>
-      <h2 className={styles.title}>Kommentare ({comments.length})</h2>
+      <h2 className={styles.title}>{isAchievementTutorial ? 'Tutorials' : 'Kommentare'} ({comments.length})</h2>
       
       {/* Form to add comment */}
       <form onSubmit={handleSubmit} className={styles.commentForm}>
@@ -62,14 +65,14 @@ export default function CommentSection({ initialComments = [], gameId }: Comment
           type="text"
           value={commentTitle}
           onChange={(e) => setCommentTitle(e.target.value)}
-          placeholder="Titel des Kommentars..."
+          placeholder={isAchievementTutorial ? 'Titel des Tutorials...' : 'Titel des Kommentars...'}
           className={styles.commentInput}
           style={{ marginBottom: '0.5rem' }}
         />
         <textarea
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
-          placeholder="Schreibe einen Kommentar..."
+          placeholder={isAchievementTutorial ? 'Schreibe ein Tutorial...' : 'Schreibe einen Kommentar...'}
           className={styles.commentInput}
           rows={4}
         />
@@ -82,14 +85,14 @@ export default function CommentSection({ initialComments = [], gameId }: Comment
           </select>
         </div>
         <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
-          {isSubmitting ? 'Wird gesendet...' : 'Kommentar hinzufügen'}
+          {isSubmitting ? 'Wird gesendet...' : isAchievementTutorial ? 'Tutorial hinzufügen' : 'Kommentar hinzufügen'}
         </button>
       </form>
       
       {/* List of comments */}
       <div className={styles.commentsList}>
         {comments.length === 0 ? (
-          <p className={styles.noComments}>Noch keine Kommentare.</p>
+          <p className={styles.noComments}>{isAchievementTutorial ? 'Noch keine Tutorials.' : 'Noch keine Kommentare.'}</p>
         ) : (
           comments.map((c, index) => (
             <div key={index} className={styles.comment}>

@@ -6,6 +6,7 @@ import styles from './achievements.module.css';
 import { Game } from '@/types';
 import { gamesAPI } from '@/lib/api/games';
 import { achievementsAPI } from '@/lib/api/achievements';
+import Image from 'next/image';
 
 interface GameWithAchievements extends Game {
   achievements: any[];
@@ -26,7 +27,7 @@ export default function GlobalAchievementsPage() {
     if (loading) return;
     try {
       setLoading(true);
-      const gamesData = await gamesAPI.getAll(pageNum, GAMES_PER_PAGE);
+      const gamesData = await gamesAPI.getAll(pageNum, 1000);
 
       // Lade Achievements für jedes Spiel
       const gamesWithAchievements: GameWithAchievements[] = await Promise.all(
@@ -87,12 +88,23 @@ export default function GlobalAchievementsPage() {
     return () => observer.disconnect();
   }, [page, hasMore, loading, fetchGamesAndAchievements]);
 
-  // Filter-Logik (Sucht in Spielen ODER Achievements)
-  const filteredGames = games.filter(game => {
-    const gameMatch = game.title?.toLowerCase().includes(search.toLowerCase());
-    const achMatch = game.achievements?.some(ach => ach.title?.toLowerCase().includes(search.toLowerCase()));
-    return gameMatch || achMatch;
-  });
+  // Filter-Logik (Sucht in Spielen ODER Achievements, zeigt nur passende Achievements)
+  const filteredGames = games.reduce<GameWithAchievements[]>((result, game) => {
+    const normalizedSearch = search.toLowerCase().trim();
+    const gameMatch = game.title?.toLowerCase().includes(normalizedSearch);
+
+    const matchingAchievements = normalizedSearch
+      ? (game.achievements ?? []).filter(ach => ach.title?.toLowerCase().includes(normalizedSearch))
+      : game.achievements ?? [];
+
+    if (!normalizedSearch) {
+      result.push({ ...game, achievements: game.achievements ?? [] });
+    } else if (gameMatch || matchingAchievements.length > 0) {
+      result.push({ ...game, achievements: matchingAchievements });
+    }
+
+    return result;
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -114,7 +126,7 @@ export default function GlobalAchievementsPage() {
           <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Keine Spiele oder Achievements gefunden</p>
         ) : (
           filteredGames.map(game => (
-            <div key={game.steamAppId} className={styles.gameCard}>
+            <div key={game.id} className={styles.gameCard}>
               <h2 className={styles.gameTitle}>
                 <Link href={`/game/${game.steamAppId}`}>
                   {game.title}
@@ -130,7 +142,8 @@ export default function GlobalAchievementsPage() {
                       href={`/game/${game.steamAppId}/achievements/${ach.id}`}
                       className={styles.achievementItem}
                     >
-                      <div className={styles.achievementIcon}>🏆</div>
+                      <div className={styles.achievementIcon}>              <img className={styles.achievementIcon} src={ach.storeSnapshot} alt='🏆' />
+</div>
                       <div className={styles.achievementInfo}>
                         <div className={styles.achievementTitle}>{ach.title}</div>
                         {ach.description && <div className={styles.achievementDesc}>{ach.description}</div>}

@@ -90,13 +90,13 @@ export default function Home() {
       <h2 style={{ marginBottom: '1.5rem' }}>Deine Spiele ({games.length})</h2>
       <div className={styles.gamesGrid}>
         {games.map(game => (
-          <Link href={`/game/${game.steamAppId}`} key={game.steamAppId} className={styles.gameCard}>
+          <Link href={`/game/${game.steamAppId}`} key={game.id} className={styles.gameCard}>
             <div className={styles.gameImage} style={{ backgroundImage: `url(${game.storeSnapshot || 'https://via.placeholder.com/300x150'})` }} />
             <div className={styles.gameInfo}>
               <div className={styles.gameTitle}>{game.title}</div>
               <div className={styles.gameMeta}>
                 <span>⭐ {game.rating}</span>
-                <span>${game.price}</span>
+                <span>{game.price != null ? "$" + game.price : "$0 (Free)"}</span>
               </div>
             </div>
           </Link>

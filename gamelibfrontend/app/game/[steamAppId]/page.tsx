@@ -52,10 +52,10 @@ export default async function GameDetailPage({ params }: { params: Promise<{ ste
                     <img src={game.storeSnapshot} alt={game.title} style={{ width: '150px', height: '100px', borderRadius: '8px', objectFit: 'cover' }} />
                     <div style={{ flex: 1 }}>
                         <h1 style={{ margin: '0 0 0.5rem 0' }}>{game.title}</h1>
-                        <p style={{ color: 'var(--text-muted)', margin: '0.5rem 0' }}>{game.description}</p>
+                        <p style={{ color: 'var(--text-muted)', margin: '0.5rem 0' }}>{game.shortDescription}</p>
                         <div style={{ display: 'flex', gap: '1rem', margin: '1rem 0', flexWrap: 'wrap' }}>
                             <span>⭐ {game.rating}</span>
-                            <span>Price: ${game.price}</span>
+                            <span>Price: {game.price != null ? "$" + game.price : "$0 (Free)"}</span>
                             {game.releaseDate ? <span>📅 {new Date(game.releaseDate).toLocaleDateString()}</span> : null}
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>

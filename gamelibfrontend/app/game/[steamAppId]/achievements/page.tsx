@@ -5,11 +5,13 @@ import { useParams } from 'next/navigation';
 import Navbar from '@/components/Navbar/Navbar';
 import { gamesAPI } from '@/lib/api/games';
 import { achievementsAPI } from '@/lib/api/achievements';
+import Image from 'next/image';
+import styles from './achievements.module.css'
 
 export default function GameAchievementsPage() {
   const params = useParams();
   const steamAppId = params?.steamAppId as string;
-  
+
   const [search, setSearch] = useState('');
   const [achievements, setAchievements] = useState<any[]>([]);
   const [gameTitle, setGameTitle] = useState('');
@@ -20,7 +22,7 @@ export default function GameAchievementsPage() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch game by steamAppId to get internal ID and title
         const game = await gamesAPI.getByStreamAppId(parseInt(steamAppId));
         if (!game) {
@@ -48,7 +50,7 @@ export default function GameAchievementsPage() {
   }, [steamAppId]);
 
   // Suchfilter-Logik
-  const filteredAchievements = achievements.filter(ach => 
+  const filteredAchievements = achievements.filter(ach =>
     ach.title?.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -74,11 +76,11 @@ export default function GameAchievementsPage() {
     <div style={{ padding: '0 2rem', maxWidth: '800px', margin: '0 auto' }}>
       <Navbar />
       <h1 style={{ marginBottom: '1rem' }}>Achievements für {gameTitle || 'Spiel'} ({achievements.length})</h1>
-      
+
       {/* Search Bar */}
-      <input 
-        type="text" 
-        placeholder="Achievement suchen..." 
+      <input
+        type="text"
+        placeholder="Achievement suchen..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: 'none', background: 'var(--bg-darkest)', color: 'white', marginBottom: '2rem' }}
@@ -86,14 +88,18 @@ export default function GameAchievementsPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {filteredAchievements.map(ach => (
-          <Link key={ach.id} href={`/game/${steamAppId}/achievements/${ach.id}`} 
-                style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '8px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', textDecoration: 'none', color: 'inherit' }}>
-            <div>
-              <h3 style={{ margin: '0 0 0.5rem 0' }}>{ach.title}</h3>
-              {ach.description && <p style={{ color: 'var(--text-muted)', margin: 0 }}>{ach.description}</p>}
-              {ach.rarity && <p style={{ color: 'var(--accent-yellow)', margin: '0.5rem 0 0 0', fontSize: '0.85rem' }}>Seltenheit: {(ach.rarity * 100).toFixed(1)}%</p>}
+          <Link
+            key={ach.id}
+            href={`/game/${steamAppId}/achievements/${ach.id}`}
+            className={styles.achievementItem}
+          >
+            <div className={styles.achievementIcon}> <img className={styles.achievementIcon} src={ach.storeSnapshot} alt='🏆' />
             </div>
-            <span style={{ color: 'var(--accent-blue)', whiteSpace: 'nowrap', marginLeft: '1rem' }}>→</span>
+            <div className={styles.achievementInfo}>
+              <div className={styles.achievementTitle}>{ach.title}</div>
+              {ach.description && <div className={styles.achievementDesc}>{ach.description}</div>}
+              {ach.rarity && <div className={styles.achievementRarity}>Seltenheit: {(ach.rarity * 100).toFixed(1)}%</div>}
+            </div>
           </Link>
         ))}
         {filteredAchievements.length === 0 && <p>Keine Achievements gefunden.</p>}

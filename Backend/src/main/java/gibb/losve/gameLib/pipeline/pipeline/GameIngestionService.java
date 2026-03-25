@@ -9,6 +9,7 @@ import gibb.losve.gameLib.pipeline.steam.SteamClient;
 import gibb.losve.gameLib.pipeline.steam.dto.GameList;
 import gibb.losve.gameLib.pipeline.steam.dto.SteamAppDataDto;
 import gibb.losve.gameLib.repository.GameRepository;
+import gibb.losve.gameLib.services.achievementService;
 import gibb.losve.gameLib.services.gameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +39,10 @@ public class GameIngestionService {
 
     @Autowired
     GameRepository gameRepository;
+    @Autowired
+    private achievementService achievementService;
+    @Autowired
+    private AchievementIngestionService achievementIngestionService;
 
     public List<Integer> ingestGames(List<GameList> gameList) {
         List<Integer> ingestedAppIds = new ArrayList<>();
@@ -58,7 +63,9 @@ public class GameIngestionService {
             }
 
             if (isGameAlreadyInDB(appId)) {
-                log.debug("Game already in DB, skipping: {}", appId);
+                log.info("Game already in DB, going to Achivemnt insertion: {}", appId);
+                achievementIngestionService.ingestAchievements(List.of(appId));
+                log.info("Ingested achievemnentts for game: {} ", appId);
                 continue;
             }
 

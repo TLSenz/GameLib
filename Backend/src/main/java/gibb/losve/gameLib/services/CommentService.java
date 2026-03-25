@@ -71,13 +71,29 @@ public class CommentService {
     }
 
     public void     createCommentGame(CreateCommentDTO comment) {
-        if (gameService.doesGameExist(comment.getGameId())){
-            Comment mappedComment = commentMapper.toEntity(comment);
-            commentRepository.save(mappedComment);
+
+        if (comment.getGameId() != null) {
+            if (gameService.doesGameExist(comment.getGameId())){
+                Comment mappedComment = commentMapper.toEntity(comment);
+                commentRepository.save(mappedComment);
+            }
+            else {
+                throw new  KeyAlreadyExistsException();
+            }
+        }
+        else if(comment.getAchievementId() != null){
+            if (achievementService.doesAchievementExist(comment.getAchievementId())){
+                Comment mappedComment = commentMapper.toEntity(comment);
+                commentRepository.save(mappedComment);
+            }
+            else {
+                throw new  KeyAlreadyExistsException();
+            }
         }
         else {
             throw new  KeyAlreadyExistsException();
         }
+
 
     }
 

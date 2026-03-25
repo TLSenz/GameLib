@@ -63,6 +63,9 @@ export default async function GameDetailPage({ params }: { params: Promise<{ ste
                                 <span key={genre} style={{ background: 'rgba(102, 126, 234, 0.3)', padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.85rem' }}>{genre}</span>
                             ))}
                         </div>
+                        <Link className={"h-3 w-3"} href={`/game/${game.steamAppId}/modify`}>
+                            Modifier
+                        </Link>
                         <Link href={`/game/${game.steamAppId}/achievements`}
                             style={{ display: 'inline-block', background: 'var(--accent-blue)', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold', color: 'white', textDecoration: 'none' }}>
                             Alle Achievements ansehen →

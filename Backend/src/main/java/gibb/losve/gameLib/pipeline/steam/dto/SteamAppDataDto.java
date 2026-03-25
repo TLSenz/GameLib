@@ -50,15 +50,6 @@ public class SteamAppDataDto {
 
     private String website;
 
-    @JsonProperty("pc_requirements")
-    private RequirementsDto pcRequirements;
-
-    @JsonProperty("mac_requirements")
-    private RequirementsDto macRequirements;
-
-    @JsonProperty("linux_requirements")
-    private RequirementsDto linuxRequirements;
-
     @JsonProperty("legal_notice")
     private String legalNotice;
 

@@ -29,8 +29,8 @@ public class PipelineScheduler {
         log.info("Starting data pipeline...");
 
         // Step 1: Fetch game list from Steam
-        int start = 0;
-        int count = 50;
+        int start = 50;
+        int count = 100;
         GameResponse gameResponse = steamClient.fetchSteamGames(start, count);
 
         if (gameResponse == null || gameResponse.getItems() == null || gameResponse.getItems().isEmpty()) {

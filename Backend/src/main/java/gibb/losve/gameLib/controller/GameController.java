@@ -1,9 +1,11 @@
 package gibb.losve.gameLib.controller;
 
 
+import gibb.losve.gameLib.dto.Stats;
 import gibb.losve.gameLib.dto.game.CreateGameDTO;
 import gibb.losve.gameLib.dto.game.GameDTO;
 import gibb.losve.gameLib.dto.game.UpdateGameDTO;
+import gibb.losve.gameLib.services.StatsService;
 import gibb.losve.gameLib.services.gameService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.autoconfigure.actuate.web.ManagementErrorEndpoint;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -28,6 +31,9 @@ public class GameController {
 
     @Autowired
     gameService gameService;
+
+    @Autowired
+    StatsService statsService;
 
 
     @Operation(summary = "Get all games", description = "Retrieves a list of games with optional limit or pagination. Use 'page' and 'size' query params for pagination.")
@@ -55,7 +61,21 @@ public class GameController {
         }
     }
 
-  //  public ResponseEntity<?> getAllGames()
+    @Operation(summary = "Get game stats", description = "Retrieves various statistics about games")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved stats",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Stats.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @GetMapping("/stats")
+    public ResponseEntity<Stats> getStats(){
+        try {
+            return ResponseEntity.ok(statsService.getStats());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+    }
 
     @Operation(summary = "Search games by title", description = "Case-insensitive search on game titles")
     @ApiResponses(value = {

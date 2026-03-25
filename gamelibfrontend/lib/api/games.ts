@@ -138,7 +138,7 @@ export const gamesAPI = {
   update: async (game: UpdateGameDTO, token?: any) => {
     try {
       const url = API_ENDPOINTS.games.update()
-      return await putJSON(url, { body: game, token })
+      return await putJSON(url, { body: game, token }, true)
     } catch (error) {
       console.error('Failed to update game:', error)
       throw error
@@ -148,9 +148,19 @@ export const gamesAPI = {
   delete: async (id: string, token?: any) => {
     try {
       const url = API_ENDPOINTS.games.delete(id)
-      return await deleteJSON(url, { token })
+      return await deleteJSON(url, { token }, true)
     } catch (error) {
       console.error('Failed to delete game:', error)
+      throw error
+    }
+  },
+
+  getStats: async () => {
+    try {
+      const url = API_ENDPOINTS.games.stats()
+      return await getJSON(url)
+    } catch (error) {
+      console.error('Failed to fetch stats:', error)
       throw error
     }
   }

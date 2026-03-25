@@ -84,7 +84,7 @@ export default function GamesPage() {
     return (
       <div className={styles.container}>
         <Navbar />
-        <h1 className={styles.title}>Meine Spiele</h1>
+        <h1 className={styles.title}>Spiele</h1>
         <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
       </div>
     );

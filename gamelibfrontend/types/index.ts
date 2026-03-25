@@ -7,7 +7,7 @@ export interface Game {
   description?: string;
   shortDescription?: string;
   genres?: string[];
-  price?: number;          // Double in Java -> number in TS
+  price: number;          // Double in Java -> number in TS
   developers?: string[];
   rating?: number;
   releaseDate?: string;    // LocalDate wird von Spring als ISO-String (z.B. "2023-09-27") gesendet

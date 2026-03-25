@@ -66,7 +66,8 @@ export const API_ENDPOINTS = {
     search: (title: string) => `${BACKEND_URL}/games/search?title=${encodeURIComponent(title)}`,
     create: () => `${BACKEND_URL}/games`,
     update: () => `${BACKEND_URL}/games`,
-    delete: (id: string) => `${BACKEND_URL}/games/${id}`
+    delete: (id: string) => `${BACKEND_URL}/games/${id}`,
+    stats: () => `${BACKEND_URL}/games/stats`
   },
   comments: {
     getAll: (limit?: number) => `${BACKEND_URL}/comments${limit ? `?numberOffCommnets=${limit}` : ''}`,

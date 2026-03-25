@@ -15,6 +15,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [stats, setStats] = useState<{ numberOfGames: number; numberOfAchievements: number; numberOfComments: number } | null>(null);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   const fetchGames = useCallback(async (pageNum: number) => {
@@ -43,6 +44,18 @@ export default function Home() {
 
   useEffect(() => {
     fetchGames(0);
+    
+    // Fetch stats nur einmal beim Laden
+    const fetchStats = async () => {
+      try {
+        const statsData = await gamesAPI.getStats();
+        setStats(statsData);
+      } catch (err) {
+        console.error('Failed to fetch stats:', err);
+      }
+    };
+    
+    fetchStats();
   }, []);
 
   useEffect(() => {
@@ -71,8 +84,9 @@ export default function Home() {
     );
   }
 
-  const totalAchievements = games.length * 30; // Mock calculation
-  const totalTutorials = Math.round(games.length * 3.5);
+  const numberOfGames = stats?.numberOfGames ?? 0;
+  const numberOfAchievements = stats?.numberOfAchievements ?? 0;
+  const numberOfComments = stats?.numberOfComments ?? 0;
 
   return (
     <div className={styles.container}>
@@ -82,12 +96,12 @@ export default function Home() {
       </header>
 
       <div className={styles.statsGrid}>
-        <div className={styles.statCard}><div className={styles.statNumber}>{games.length}</div><div className={styles.statLabel}>Games</div></div>
-        <div className={styles.statCard}><div className={styles.statNumber}>{totalAchievements}</div><div className={styles.statLabel}>Achievements</div></div>
-        <div className={styles.statCard}><div className={styles.statNumber}>{totalTutorials}</div><div className={styles.statLabel}>Tutorials</div></div>
+        <div className={styles.statCard}><div className={styles.statNumber}>{numberOfGames}</div><div className={styles.statLabel}>Games</div></div>
+        <div className={styles.statCard}><div className={styles.statNumber}>{numberOfAchievements}</div><div className={styles.statLabel}>Achievements</div></div>
+        <div className={styles.statCard}><div className={styles.statNumber}>{numberOfComments}</div><div className={styles.statLabel}>Comments</div></div>
       </div>
 
-      <h2 style={{ marginBottom: '1.5rem' }}>Deine Spiele ({games.length})</h2>
+      <h2 style={{ marginBottom: '1.5rem' }}>Spiele ({games.length})</h2>
       <div className={styles.gamesGrid}>
         {games.map(game => (
           <Link href={`/game/${game.steamAppId}`} key={game.id} className={styles.gameCard}>

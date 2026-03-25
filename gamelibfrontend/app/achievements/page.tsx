@@ -33,7 +33,7 @@ export default function GlobalAchievementsPage() {
       const gamesWithAchievements: GameWithAchievements[] = await Promise.all(
         gamesData.content.map(async (game) => {
           try {
-            const achievements = game.steamAppId 
+            const achievements = game.steamAppId
               ? await achievementsAPI.getByGameId(game.id)
               : [];
             return {
@@ -110,12 +110,12 @@ export default function GlobalAchievementsPage() {
     <div className={styles.container}>
       <Navbar />
       <h1 className={styles.title}>Alle Achievements</h1>
-      
+
       {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
-      
-      <input 
-        type="text" 
-        placeholder="Nach Spiel oder Achievement suchen..." 
+
+      <input
+        type="text"
+        placeholder="Nach Spiel oder Achievement suchen..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className={styles.searchInput}
@@ -132,18 +132,18 @@ export default function GlobalAchievementsPage() {
                   {game.title}
                 </Link>
               </h2>
-              
+
               {/* Achievements aus diesem Spiel */}
               <div className={styles.achievementsList}>
                 {game.achievements && game.achievements.length > 0 ? (
                   game.achievements.map(ach => (
-                    <Link 
-                      key={ach.id} 
+                    <Link
+                      key={ach.id}
                       href={`/game/${game.steamAppId}/achievements/${ach.id}`}
                       className={styles.achievementItem}
                     >
-                      <div className={styles.achievementIcon}>              <img className={styles.achievementIcon} src={ach.storeSnapshot} alt='🏆' />
-</div>
+                      <div className={styles.achievementIcon}> <img className={styles.achievementIcon} src={ach.storeSnapshot} alt='🏆' />
+                      </div>
                       <div className={styles.achievementInfo}>
                         <div className={styles.achievementTitle}>{ach.title}</div>
                         {ach.description && <div className={styles.achievementDesc}>{ach.description}</div>}

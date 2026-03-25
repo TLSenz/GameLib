@@ -43,6 +43,18 @@ public class achievementService {
         return Math.toIntExact(achievementRepository.count());
     }
 
+    public boolean check_if_achievement_exists(String tile){
+        try{
+            Achievement result = achievementRepository.findByTitle(tile);
+            ObjectId id = result.getId();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
+
+    }
+
     public void createAchievement(CreateAchievementDTO achievement) {
         Achievement mappedAchievement = achievementMapper.toEntity(achievement);
         achievementRepository.save(mappedAchievement);

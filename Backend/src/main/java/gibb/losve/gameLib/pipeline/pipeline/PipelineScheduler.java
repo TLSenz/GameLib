@@ -29,8 +29,8 @@ public class PipelineScheduler {
         log.info("Starting data pipeline...");
 
         // Step 1: Fetch game list from Steam
-        int start = 0;
-        int count = 50;
+        int start = 50;
+        int count = 100;
         GameResponse gameResponse = steamClient.fetchSteamGames(start, count);
 
         if (gameResponse == null || gameResponse.getItems() == null || gameResponse.getItems().isEmpty()) {
@@ -54,7 +54,7 @@ public class PipelineScheduler {
         log.info("Data pipeline completed");
     }
 
-    @Scheduled(cron = "0 3 * * * *", zone = "Europe/Berlin")
+   // @Scheduled(cron = "0 3 * * * *", zone = "Europe/Berlin")
     private void schedulePipeline() {
         log.info("Scheduled pipeline triggered");
         initiatePipeline();

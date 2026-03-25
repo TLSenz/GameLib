@@ -60,15 +60,18 @@ public class AchievementIngestionService {
                     try {
                         CreateAchievementDTO createAchievementDTO = achievementMapper.toCreateAchievement(gameStat);
                         createAchievementDTO.setGameId(gameId);
-                        achievementService.createAchievement(createAchievementDTO);
+                        if (achievementService.check_if_achievement_exists(createAchievementDTO.getTitle())){
+                            achievementService.createAchievement(createAchievementDTO);
+                            log.info("Ingested {} achievements for app ID: {}", stats.size(), steamAppId);
+                        }
+                        else {
+                            log.info("Could not insert Achivement because Achivement already does exist");
+                        }
                     } catch (Exception e) {
                         log.error("Failed to create achievement '{}' for app ID: {}",
                                 gameStat.getName(), steamAppId, e);
                     }
                 }
-
-                log.info("Ingested {} achievements for app ID: {}", stats.size(), steamAppId);
-
             } catch (Exception e) {
                 log.error("Failed to ingest achievements for app ID: {}", steamAppId, e);
             }

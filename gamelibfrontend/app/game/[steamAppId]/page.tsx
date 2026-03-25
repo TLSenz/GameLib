@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar/Navbar';
 import CommentSection from '@/components/CommentSection/CommentSection';
 import { gamesAPI } from '@/lib/api/games';
 import { commentsAPI } from '@/lib/api/comments';
+import {redirect} from "next/navigation";
 
 async function fetchGameData(steamAppId: number) {
     try {
@@ -32,6 +33,15 @@ export default async function GameDetailPage({ params }: { params: Promise<{ ste
     const { steamAppId: steamAppIdStr } = await params;
     const steamAppId = parseInt(steamAppIdStr);
     const { game, gameComments } = await fetchGameData(steamAppId);
+
+
+
+    const handleDelete = () => {
+        if (game?.id !=null) {
+            gamesAPI.delete(game?.id)
+            redirect("/")
+        }
+    }
 
     if (!game) {
         return (
@@ -66,6 +76,7 @@ export default async function GameDetailPage({ params }: { params: Promise<{ ste
                         <Link className={"h-3 w-3"} href={`/game/${game.steamAppId}/modify`}>
                             Modifier
                         </Link>
+                        <button onClick={handleDelete}>Delete Game</button>
                         <Link href={`/game/${game.steamAppId}/achievements`}
                             style={{ display: 'inline-block', background: 'var(--accent-blue)', padding: '10px 20px', borderRadius: '8px', fontWeight: 'bold', color: 'white', textDecoration: 'none' }}>
                             Alle Achievements ansehen →

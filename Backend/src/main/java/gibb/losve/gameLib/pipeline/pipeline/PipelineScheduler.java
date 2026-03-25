@@ -54,7 +54,7 @@ public class PipelineScheduler {
         log.info("Data pipeline completed");
     }
 
-    @Scheduled(cron = "0 3 * * * *", zone = "Europe/Berlin")
+   // @Scheduled(cron = "0 3 * * * *", zone = "Europe/Berlin")
     private void schedulePipeline() {
         log.info("Scheduled pipeline triggered");
         initiatePipeline();

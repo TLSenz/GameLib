@@ -29,29 +29,32 @@ public class PipelineScheduler {
         log.info("Starting data pipeline...");
 
         // Step 1: Fetch game list from Steam
-        int start = 50;
-        int count = 100;
-        GameResponse gameResponse = steamClient.fetchSteamGames(start, count);
+        int start = 0;
+        int count = 50;
+        for (int i = 500; i < 1100; i = i + 50) {
 
-        if (gameResponse == null || gameResponse.getItems() == null || gameResponse.getItems().isEmpty()) {
-            log.warn("No games returned from Steam API");
-            return;
+            GameResponse gameResponse = steamClient.fetchSteamGames(i, 50);
+
+            if (gameResponse == null || gameResponse.getItems() == null || gameResponse.getItems().isEmpty()) {
+                log.warn("No games returned from Steam API");
+                return;
+            }
+
+            List<GameList> gameList = gameResponse.getItems();
+            log.info("Fetched {} games from Steam API", gameList.size());
+
+            // Step 2: Ingest games into database, get list of ingested app IDs
+            List<Integer> ingestedAppIds = gameIngestionService.ingestGames(gameList);
+            log.info("Successfully ingested {} new games", ingestedAppIds.size());
+
+            // Step 3: Fetch and ingest achievements for newly ingested games
+         /*   if (!ingestedAppIds.isEmpty()) {
+                log.info("Fetching achievements for {} games...", ingestedAppIds.size());
+                achievementIngestionService.ingestAchievements(ingestedAppIds);
+            } */
+
+            log.info("Data pipeline completed");
         }
-
-        List<GameList> gameList = gameResponse.getItems();
-        log.info("Fetched {} games from Steam API", gameList.size());
-
-        // Step 2: Ingest games into database, get list of ingested app IDs
-        List<Integer> ingestedAppIds = gameIngestionService.ingestGames(gameList);
-        log.info("Successfully ingested {} new games", ingestedAppIds.size());
-
-        // Step 3: Fetch and ingest achievements for newly ingested games
-        if (!ingestedAppIds.isEmpty()) {
-            log.info("Fetching achievements for {} games...", ingestedAppIds.size());
-            achievementIngestionService.ingestAchievements(ingestedAppIds);
-        }
-
-        log.info("Data pipeline completed");
     }
 
    // @Scheduled(cron = "0 3 * * * *", zone = "Europe/Berlin")

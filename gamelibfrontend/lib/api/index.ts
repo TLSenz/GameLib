@@ -1,3 +1,5 @@
+import { create } from "domain";
+
 interface Token {
   accessToken: string;
 }
@@ -7,13 +9,12 @@ interface FetchParams extends RequestInit {
   token?: Token | null;
 }
 
-function createFetchFunction(method: string) {
+function createFetchFunction(method: string, returnsJson: boolean = true) {
   return async (url: string, params: FetchParams = {}, noObjectInResponse: boolean = false) => {
     const _params: FetchParams = {
       method,
       headers: {
-        "Content-Type": "application/json",
-        "Mode": "no-cors"
+        "Content-Type": "application/json"
       },
       ...params
     }
@@ -35,7 +36,7 @@ function createFetchFunction(method: string) {
       throw error
     }
 
-    if (noObjectInResponse) {
+    if (noObjectInResponse || !returnsJson) {
       return response
     }
 
@@ -48,17 +49,25 @@ export const postJSON = createFetchFunction("POST")
 export const putJSON = createFetchFunction("PUT")
 export const deleteJSON = createFetchFunction("DELETE")
 export const getJSON = createFetchFunction("GET")
+export const postNoJSON = createFetchFunction("POST", false)
 
 // Backend API Base URL
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8087'
 
 export const API_ENDPOINTS = {
   games: {
-    getAll: (limit?: number) => `${BACKEND_URL}/games${limit ? `?numberOfGames=${limit}` : ''}`,
+    getAll: (page?: number, size?: number) => {
+      const params = new URLSearchParams();
+      if (page !== undefined) params.append('page', page.toString());
+      if (size !== undefined) params.append('size', size.toString());
+      return `${BACKEND_URL}/games${params.toString() ? `?${params.toString()}` : ''}`;
+    },
     getById: (id: string) => `${BACKEND_URL}/games/${id}`,
+    search: (title: string) => `${BACKEND_URL}/games/search?title=${encodeURIComponent(title)}`,
     create: () => `${BACKEND_URL}/games`,
     update: () => `${BACKEND_URL}/games`,
-    delete: (id: string) => `${BACKEND_URL}/games/${id}`
+    delete: (id: string) => `${BACKEND_URL}/games/${id}`,
+    stats: () => `${BACKEND_URL}/games/stats`
   },
   comments: {
     getAll: (limit?: number) => `${BACKEND_URL}/comments${limit ? `?numberOffCommnets=${limit}` : ''}`,

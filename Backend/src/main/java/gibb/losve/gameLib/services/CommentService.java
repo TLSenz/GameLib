@@ -11,7 +11,9 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CommentService {
@@ -20,7 +22,13 @@ public class CommentService {
     CommentRepository commentRepository;
 
     @Autowired
+    achievementService achievementService;
+
+    @Autowired
     CommentMapper commentMapper;
+
+    @Autowired
+    gameService gameService;
 
     public List<CommentDTO> getAllComments(int numberOfComments) {
         return commentRepository.findAll().stream()
@@ -40,20 +48,63 @@ public class CommentService {
                 .toList();
     }
 
+    public int getNumberOfComments(){
+        return Math.toIntExact(commentRepository.count());
+    }
+
     public List<CommentDTO> getCommentsByAchievementId(String achievementId) {
         return commentRepository.findByAchievementId(new ObjectId(achievementId)).stream()
                 .map(comment -> commentMapper.toDTO(comment))
                 .toList();
     }
 
-    public void createComment(CreateCommentDTO comment) {
-        Comment mappedComment = commentMapper.toEntity(comment);
-        commentRepository.save(mappedComment);
+    public void createCommentAchievement(CreateCommentDTO comment) {
+        if (achievementService.doesAchievementExist(comment.getAchievementId())) {
+            Comment mappedComment = commentMapper.toEntity(comment);
+            commentRepository.save(mappedComment);
+        }
+        else {
+            throw new KeyAlreadyExistsException();
+        }
+
+
     }
 
-   public void updateComment(UpdateCommentDTO comment) {
-        Comment updatedComment = commentMapper.toEntity(comment);
-        commentRepository.save(updatedComment);
+    public void     createCommentGame(CreateCommentDTO comment) {
+
+        if (comment.getGameId() != null) {
+            if (gameService.doesGameExist(comment.getGameId())){
+                Comment mappedComment = commentMapper.toEntity(comment);
+                commentRepository.save(mappedComment);
+            }
+            else {
+                throw new  KeyAlreadyExistsException();
+            }
+        }
+        else if(comment.getAchievementId() != null){
+            if (achievementService.doesAchievementExist(comment.getAchievementId())){
+                Comment mappedComment = commentMapper.toEntity(comment);
+                commentRepository.save(mappedComment);
+            }
+            else {
+                throw new  KeyAlreadyExistsException();
+            }
+        }
+        else {
+            throw new  KeyAlreadyExistsException();
+        }
+
+
+    }
+
+    public void updateComment(UpdateCommentDTO comment) {
+        Comment existing = commentRepository
+                .findById(comment.getId().toString())
+                .orElseThrow(() -> new NoSuchElementException("Issue"));
+
+        commentMapper.updateEntityFromDto(comment, existing);
+
+        commentRepository.save(existing);
     }
 
     public void deleteComment(String id) {

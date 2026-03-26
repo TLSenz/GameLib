@@ -13,4 +13,6 @@ public interface AchievementRepository extends MongoRepository<Achievement, Stri
     List<Achievement> findByGameId(ObjectId gameId);
 
     void deleteByGameId(String gameId);
+
+    Achievement findByTitle(String title);
 }

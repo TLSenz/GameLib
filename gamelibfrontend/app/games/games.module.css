@@ -1,0 +1,21 @@
+.container {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--text-primary);
+}
+
+.gamesList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}

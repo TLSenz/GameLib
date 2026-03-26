@@ -20,6 +20,10 @@ import java.util.List;
 @Schema(description = "DTO for updating an existing game")
 public class UpdateGameDTO {
 
+
+    @Schema(description = "Internal MongoDB document ID", example = "64f1a2b3c4d5e6f7a8b9c0d1")
+    private String id;
+
     @Id
     @Field("steamAppId")
     @Schema(description = "Steam application ID", example = "1091500")

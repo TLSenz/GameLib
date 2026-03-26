@@ -1,6 +1,7 @@
 package gibb.losve.gameLib.dto.achivement;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,12 +20,14 @@ import java.math.BigDecimal;
 public class UpdateAchievementDTO {
 
     @Id
+    @NotNull
     @Schema(description = "Achievement ID", example = "507f1f77bcf86cd799439011")
     private String id;
 
     @Field("gameId")
+    @NotNull
     @Schema(description = "Game ID associated with this achievement", example = "1091500")
-    private Integer gameId;
+    private String gameId;
 
     @Schema(description = "Achievement title", example = "First Blood")
     private String title;

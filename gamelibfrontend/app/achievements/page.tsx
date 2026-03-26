@@ -1,90 +1,167 @@
-"use client";
-import { useState, useEffect, useRef } from 'react';
+'use client';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Navbar from '@/components/Navbar/Navbar';
 import Link from 'next/link';
+import styles from './achievements.module.css';
+import { Game } from '@/types';
+import { gamesAPI } from '@/lib/api/games';
+import { achievementsAPI } from '@/lib/api/achievements';
+import Image from 'next/image';
 
-// Mock Daten-Generator für das Scrollen
-const generateMockGames = (offset: number) => Array.from({ length: 5 }).map((_, i) => ({
-  steamAppId: offset + i,
-  title: `Spiel ${offset + i}`,
-  achievements: [
-    { id: `a${offset+i}1`, title: 'Erster Schritt' },
-    { id: `a${offset+i}2`, title: 'Meister' }
-  ]
-}));
+interface GameWithAchievements extends Game {
+  achievements: any[];
+}
+
+const GAMES_PER_PAGE = 20;
 
 export default function GlobalAchievementsPage() {
   const [search, setSearch] = useState('');
-  const [games, setGames] = useState(generateMockGames(1));
+  const [games, setGames] = useState<GameWithAchievements[]>([]);
   const [loading, setLoading] = useState(false);
-  const loaderRef = useRef(null);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const observerTarget = useRef<HTMLDivElement>(null);
 
-  // Intersection Observer für Infinite Scroll
-  useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const target = entries[0];
-      if (target.isIntersecting && !loading) {
-        loadMoreGames();
+  const fetchGamesAndAchievements = useCallback(async (pageNum: number) => {
+    if (loading) return;
+    try {
+      setLoading(true);
+      const gamesData = await gamesAPI.getAll(pageNum, 1000);
+
+      // Lade Achievements für jedes Spiel
+      const gamesWithAchievements: GameWithAchievements[] = await Promise.all(
+        gamesData.content.map(async (game) => {
+          try {
+            const achievements = game.steamAppId
+              ? await achievementsAPI.getByGameId(game.id)
+              : [];
+            return {
+              ...game,
+              achievements: Array.isArray(achievements) ? achievements : []
+            } as GameWithAchievements;
+          } catch {
+            return {
+              ...game,
+              achievements: []
+            } as GameWithAchievements;
+          }
+        })
+      );
+
+      if (pageNum === 0) {
+        setGames(gamesWithAchievements);
+      } else {
+        setGames(prev => [...prev, ...gamesWithAchievements]);
       }
-    });
 
-    if (loaderRef.current) observer.observe(loaderRef.current);
-    return () => observer.disconnect();
-  }, [games, loading]);
-
-  const loadMoreGames = () => {
-    setLoading(true);
-    // Simuliere API Request an Spring Boot
-    setTimeout(() => {
-      const newGames = generateMockGames(games.length + 1);
-      setGames(prev => [...prev, ...newGames]);
+      setHasMore(!gamesData.last);
+      setPage(pageNum + 1);
+    } catch (err) {
+      console.error('Failed to load games and achievements:', err);
+      if (pageNum === 0) {
+        setError('Fehler beim Laden der Achievements');
+      }
+    } finally {
       setLoading(false);
-    }, 1000); // 1 Sekunde künstliche Ladezeit
-  };
+    }
+  }, [loading]);
 
-  // Filter-Logik (Sucht in Spielen ODER Achievements)
-  const filteredGames = games.filter(game => {
-    const gameMatch = game.title.toLowerCase().includes(search.toLowerCase());
-    const achMatch = game.achievements.some(ach => ach.title.toLowerCase().includes(search.toLowerCase()));
-    return gameMatch || achMatch;
-  });
+  useEffect(() => {
+    fetchGamesAndAchievements(0);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          fetchGamesAndAchievements(page);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => observer.disconnect();
+  }, [page, hasMore, loading, fetchGamesAndAchievements]);
+
+  // Filter-Logik (Sucht in Spielen ODER Achievements, zeigt nur passende Achievements)
+  const filteredGames = games.reduce<GameWithAchievements[]>((result, game) => {
+    const normalizedSearch = search.toLowerCase().trim();
+    const gameMatch = game.title?.toLowerCase().includes(normalizedSearch);
+
+    const matchingAchievements = normalizedSearch
+      ? (game.achievements ?? []).filter(ach => ach.title?.toLowerCase().includes(normalizedSearch))
+      : game.achievements ?? [];
+
+    if (!normalizedSearch) {
+      result.push({ ...game, achievements: game.achievements ?? [] });
+    } else if (gameMatch || matchingAchievements.length > 0) {
+      result.push({ ...game, achievements: matchingAchievements });
+    }
+
+    return result;
+  }, []);
 
   return (
-    <div style={{ padding: '0 2rem', maxWidth: '800px', margin: '0 auto', paddingBottom: '4rem' }}>
+    <div className={styles.container}>
       <Navbar />
-      <h1>Alle Achievements</h1>
-      
-      <input 
-        type="text" 
-        placeholder="Nach Spiel oder Achievement suchen..." 
+      <h1 className={styles.title}>Alle Achievements</h1>
+
+      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+
+      <input
+        type="text"
+        placeholder="Nach Spiel oder Achievement suchen..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        style={{ width: '100%', padding: '1rem', borderRadius: '8px', border: 'none', background: 'var(--bg-darkest)', color: 'white', margin: '2rem 0' }}
+        className={styles.searchInput}
       />
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-        {filteredGames.map(game => (
-          <div key={game.steamAppId} style={{ background: 'var(--bg-card)', padding: '1.5rem', borderRadius: '8px' }}>
-            <h2 style={{ marginBottom: '1rem', borderBottom: '1px solid #666', paddingBottom: '0.5rem' }}>
-              {game.title}
-            </h2>
-            
-            {/* Eingerückte Achievements */}
-            <div style={{ paddingLeft: '2rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {game.achievements.map(ach => (
-                <Link key={ach.id} href={`/game/${game.steamAppId}/achievements/${ach.id}`}
-                      style={{ background: 'var(--bg-darkest)', padding: '1rem', borderRadius: '4px' }}>
-                  {ach.title}
+      <div className={styles.gamesList}>
+        {filteredGames.length === 0 ? (
+          <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Keine Spiele oder Achievements gefunden</p>
+        ) : (
+          filteredGames.map(game => (
+            <div key={game.id} className={styles.gameCard}>
+              <h2 className={styles.gameTitle}>
+                <Link href={`/game/${game.steamAppId}`}>
+                  {game.title}
                 </Link>
-              ))}
+              </h2>
+
+              {/* Achievements aus diesem Spiel */}
+              <div className={styles.achievementsList}>
+                {game.achievements && game.achievements.length > 0 ? (
+                  game.achievements.map(ach => (
+                    <Link
+                      key={ach.id}
+                      href={`/game/${game.steamAppId}/achievements/${ach.id}`}
+                      className={styles.achievementItem}
+                    >
+                      <div className={styles.achievementIcon}> <img className={styles.achievementIcon} src={ach.storeSnapshot} alt='🏆' />
+                      </div>
+                      <div className={styles.achievementInfo}>
+                        <div className={styles.achievementTitle}>{ach.title}</div>
+                        {ach.description && <div className={styles.achievementDesc}>{ach.description}</div>}
+                        {ach.rarity && <div className={styles.achievementRarity}>Seltenheit: {(ach.rarity * 100).toFixed(1)}%</div>}
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <p style={{ color: 'var(--text-muted)', paddingLeft: '2rem' }}>Keine Achievements verfügbar</p>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
-      {/* Das Element, das das Nachladen triggert (Infinite Scroll Loader) */}
-      {search === '' && (
-        <div ref={loaderRef} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
+      {hasMore && search === '' && (
+        <div ref={observerTarget} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
           {loading ? 'Lade weitere Spiele...' : 'Scrolle für mehr'}
         </div>
       )}

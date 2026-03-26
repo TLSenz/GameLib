@@ -1,22 +1,38 @@
 'use client';
 
 import Navbar from '@/components/Navbar/Navbar';
-import Link from 'next/link';
-import styles from './page.module.css';
+import GameRow from '@/components/GameRow/GameRow';
+import styles from './games.module.css';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { Game } from '@/types';
 import { gamesAPI } from '@/lib/api/games';
+import { achievementsAPI } from '@/lib/api/achievements';
 
 const GAMES_PER_PAGE = 20;
 
-export default function Home() {
+export default function GamesPage() {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [stats, setStats] = useState<{ numberOfGames: number; numberOfAchievements: number; numberOfComments: number } | null>(null);
+  const [achievementCounts, setAchievementCounts] = useState<{ [key: string]: number }>({});
   const observerTarget = useRef<HTMLDivElement>(null);
+
+  const fetchAchievementCounts = useCallback(async (gamesToFetch: Game[]) => {
+    const counts: { [key: string]: number } = {};
+    for (const game of gamesToFetch) {
+      if (game.id) {
+        try {
+          const achievements = await achievementsAPI.getByGameId(game.id);
+          counts[String(game.steamAppId)] = Array.isArray(achievements) ? achievements.length : 0;
+        } catch {
+          counts[String(game.steamAppId)] = 0;
+        }
+      }
+    }
+    setAchievementCounts(prev => ({ ...prev, ...counts }));
+  }, []);
 
   const fetchGames = useCallback(async (pageNum: number) => {
     if (loading) return;
@@ -30,6 +46,7 @@ export default function Home() {
         setGames(prev => [...prev, ...data.content]);
       }
       
+      await fetchAchievementCounts(data.content);
       setHasMore(!data.last);
       setPage(pageNum + 1);
     } catch (err) {
@@ -40,22 +57,10 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  }, [loading]);
+  }, [loading, fetchAchievementCounts]);
 
   useEffect(() => {
     fetchGames(0);
-    
-    // Fetch stats nur einmal beim Laden
-    const fetchStats = async () => {
-      try {
-        const statsData = await gamesAPI.getStats();
-        setStats(statsData);
-      } catch (err) {
-        console.error('Failed to fetch stats:', err);
-      }
-    };
-    
-    fetchStats();
   }, []);
 
   useEffect(() => {
@@ -79,41 +84,25 @@ export default function Home() {
     return (
       <div className={styles.container}>
         <Navbar />
+        <h1 className={styles.title}>Spiele</h1>
         <p style={{ textAlign: 'center', color: 'red' }}>{error}</p>
       </div>
     );
   }
 
-  const numberOfGames = stats?.numberOfGames ?? 0;
-  const numberOfAchievements = stats?.numberOfAchievements ?? 0;
-  const numberOfComments = stats?.numberOfComments ?? 0;
-
   return (
     <div className={styles.container}>
       <Navbar />
-      <header className={styles.hero}>
-        <h1 className={styles.heroTitle}>Steam Game Library</h1>
-      </header>
-
-      <div className={styles.statsGrid}>
-        <div className={styles.statCard}><div className={styles.statNumber}>{numberOfGames}</div><div className={styles.statLabel}>Games</div></div>
-        <div className={styles.statCard}><div className={styles.statNumber}>{numberOfAchievements}</div><div className={styles.statLabel}>Achievements</div></div>
-        <div className={styles.statCard}><div className={styles.statNumber}>{numberOfComments}</div><div className={styles.statLabel}>Comments</div></div>
-      </div>
-
-      <h2 style={{ marginBottom: '1.5rem' }}>Spiele ({games.length})</h2>
-      <div className={styles.gamesGrid}>
+      <h1 className={styles.title}>Spiele ({games.length})</h1>
+      
+      <div className={styles.gamesList}>
         {games.map(game => (
-          <Link href={`/game/${game.steamAppId}`} key={game.id} className={styles.gameCard}>
-            <div className={styles.gameImage} style={{ backgroundImage: `url(${game.storeSnapshot || 'https://via.placeholder.com/300x150'})` }} />
-            <div className={styles.gameInfo}>
-              <div className={styles.gameTitle}>{game.title}</div>
-              <div className={styles.gameMeta}>
-                <span>⭐ {game.rating}</span>
-                <span>{game.price != null ? "$" + game.price : "$0 (Free)"}</span>
-              </div>
-            </div>
-          </Link>
+          <GameRow
+            key={game.id}
+            game={game}
+            achievementsCount={achievementCounts[String(game.steamAppId)] || 0}
+            percentage={0}
+          />
         ))}
       </div>
 

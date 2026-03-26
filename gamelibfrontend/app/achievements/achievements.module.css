@@ -1,0 +1,124 @@
+.container {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.searchInput {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--bg-darker);
+  background: var(--bg-darkest);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+}
+
+.gamesList {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.gameCard {
+  background: var(--bg-darker);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent-blue);
+}
+
+.gameTitle {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--bg-darkest);
+  padding-bottom: 0.75rem;
+}
+
+.gameTitle a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.gameTitle a:hover {
+  color: var(--accent-cyan);
+}
+
+.achievementsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-left: 1rem;
+}
+
+.achievementItem {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-darkest);
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.2s;
+  border-left: 2px solid transparent;
+}
+
+.achievementItem:hover {
+  background: var(--bg-dark);
+  border-left-color: var(--accent-yellow);
+  transform: translateX(4px);
+}
+
+.achievementIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievementInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.achievementTitle {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.achievementDesc {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  line-height: 1.3;
+}
+
+.achievementRarity {
+  color: var(--accent-yellow);
+  font-size: 0.8rem;
+  font-weight: 500;
+}

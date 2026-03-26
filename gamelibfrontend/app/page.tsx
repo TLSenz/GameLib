@@ -45,7 +45,7 @@ export default function Home() {
   useEffect(() => {
     fetchGames(0);
     
-    // Fetch stats nur einmal beim Laden
+    // Fetch stats only once on initial load, for performance 
     const fetchStats = async () => {
       try {
         const statsData = await gamesAPI.getStats();

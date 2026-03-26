@@ -24,7 +24,7 @@ export default function AchievementDetailPage() {
       try {
         setLoading(true);
 
-        // Fetch game by steamAppId
+        // fetch game by steamAppId
         const gameData = await gamesAPI.getByStreamAppId(parseInt(steamAppId));
         if (!gameData) {
           setError('Spiel nicht gefunden');
@@ -33,7 +33,7 @@ export default function AchievementDetailPage() {
         }
         setGame(gameData);
 
-        // Fetch all achievements for this game
+        // Fetch all achievements for this game with the mongodb gameId from the fetch above and find the one for the detail page
         const achievementsData = await achievementsAPI.getByGameId(gameData.id);
         const ach = Array.isArray(achievementsData)
           ? achievementsData.find((a) => a.id === achievementId)

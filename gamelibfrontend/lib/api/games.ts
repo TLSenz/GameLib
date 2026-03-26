@@ -102,10 +102,10 @@ export const gamesAPI = {
 
   getByStreamAppId: async (steamAppId: number | string): Promise<Game | null> => {
     try {
-      // Note: There's no direct API endpoint for searching by steamAppId
-      // So we fetch and filter locally. For better performance with many games,
-      // consider adding a /games/search?steamAppId={id} endpoint to the backend
-      const data = await gamesAPI.getAll(0, 100)
+      // Note: There's no direct API endpoint for searching by steamAppId so we fetch and filter locally. Not very efficient, but it works :D. For a prod app, Sven or I should implement a endpoint for the steamAppId.
+
+      console.log(steamAppId)
+      const data = await gamesAPI.getAll(0, 1000)
       const game = data.content.find(g => String(g.steamAppId) === String(steamAppId))
       return game || null
     } catch (error) {

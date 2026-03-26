@@ -9,7 +9,7 @@ interface GameRowProps {
 }
 
 export default function GameRow({ game, achievementsCount, percentage }: GameRowProps) {
-  // Farbe basierend auf Prozentzahl bestimmen
+  // set matching color for percentage
   let percentageColor = 'var(--accent-green)';
   if (percentage < 50) percentageColor = 'var(--accent-red)';
   else if (percentage < 90) percentageColor = 'var(--accent-orange)';

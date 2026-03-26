@@ -29,7 +29,7 @@ export default function GlobalAchievementsPage() {
       setLoading(true);
       const gamesData = await gamesAPI.getAll(pageNum, 1000);
 
-      // Lade Achievements für jedes Spiel
+      // load achievements for each game and also catch all errors. if an error occurs, it just returns an empty array
       const gamesWithAchievements: GameWithAchievements[] = await Promise.all(
         gamesData.content.map(async (game) => {
           try {
@@ -88,7 +88,7 @@ export default function GlobalAchievementsPage() {
     return () => observer.disconnect();
   }, [page, hasMore, loading, fetchGamesAndAchievements]);
 
-  // Filter-Logik (Sucht in Spielen ODER Achievements, zeigt nur passende Achievements)
+  // Filter logic for the search. checks, if the search input matches either the game title or any achievement title. only shows games and achievements, that match the search
   const filteredGames = games.reduce<GameWithAchievements[]>((result, game) => {
     const normalizedSearch = search.toLowerCase().trim();
     const gameMatch = game.title?.toLowerCase().includes(normalizedSearch);

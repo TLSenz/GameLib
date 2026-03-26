@@ -23,7 +23,7 @@ export default function GameAchievementsPage() {
       try {
         setLoading(true);
 
-        // Fetch game by steamAppId to get internal ID and title
+        // Fetches the game with the steamAppId to get the mongodb Id to later fetch the achievements.
         const game = await gamesAPI.getByStreamAppId(parseInt(steamAppId));
         if (!game) {
           setError('Spiel nicht gefunden');
@@ -33,7 +33,7 @@ export default function GameAchievementsPage() {
 
         setGameTitle(game.title);
 
-        // Fetch achievements by internal game ID
+        // fetch achievements with the mongodb gameId provided by the request above
         const achievementsData = await achievementsAPI.getByGameId(game.id);
         setAchievements(Array.isArray(achievementsData) ? achievementsData : []);
       } catch (err) {
@@ -49,7 +49,7 @@ export default function GameAchievementsPage() {
     }
   }, [steamAppId]);
 
-  // Suchfilter-Logik
+  // search logic 
   const filteredAchievements = achievements.filter(ach =>
     ach.title?.toLowerCase().includes(search.toLowerCase())
   );

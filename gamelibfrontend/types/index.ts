@@ -1,33 +1,35 @@
+// These interfaces represent the data structres we receive from the SpringBoot backend.
+
 export interface Game {
-  id: string;              // Entspricht @Id private String id;
-  steamAppId?: number;     // Integer in Java -> number in TS
+  id: string;              // this is the MongoDB id, not the same as the SteamAppId
+  steamAppId?: number;     // SteamappId is only numbers
   title: string;
-  platforms?: string[];    // List<String> in Java -> string[] in TS
+  platforms?: string[];    // all possible plattforms come as a list
   storeSnapshot?: string;
   description?: string;
-  shortDescription?: string;
+  shortDescription?: string; // this is the one, we mostly use, because the description is often very long and contains html tags
   genres?: string[];
-  price: number;          // Double in Java -> number in TS
+  price: number;
   developers?: string[];
   rating?: number;
-  releaseDate?: string;    // LocalDate wird von Spring als ISO-String (z.B. "2023-09-27") gesendet
+  releaseDate?: string;    // as an Iso String
   lastUpdateAt?: string;
 }
 
 export interface Achievement {
-  id: string;              // Entspricht @Id private String id;
-  gameId?: string;         // Verweis auf die Game.id
+  id: string;              // MongoDB id
+  gameId?: string;         // this links the achievemnt to the parent game (using MongoDB id)
   title?: string;
-  storeSnapshot?: string;
+  storeSnapshot?: string;  // url to image of the achievement
 }
 
 export interface Comment {
-  id: string;              // Entspricht @Id private String id;
+  id: string;              // MongoDB id
   gameId: string;
   title: string;
   comment: string;
-  createdAt: string;      // In deinem Java-Model jetzt "createdAt" (camelCase)
+  createdAt: string;      
   description: string;
   genres: string[];
-  bewertung: number;      // Double in Java -> number in TS
+  bewertung: number;     
 }

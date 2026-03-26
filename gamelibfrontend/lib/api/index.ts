@@ -26,7 +26,7 @@ function createFetchFunction(method: string, returnsJson: boolean = true) {
     if (_params.token && _params.token !== null) {
       (_params.headers as Record<string, string>)["Authorization"] = `Bearer ${_params.token.accessToken}`
     }
-    console.log("TEST", _params.token)
+    console.log(url, _params)
     
     const response = await fetch(url, _params as RequestInit)
 
@@ -51,7 +51,7 @@ export const deleteJSON = createFetchFunction("DELETE")
 export const getJSON = createFetchFunction("GET")
 export const postNoJSON = createFetchFunction("POST", false)
 
-// Backend API Base URL
+// Backend API Base URL (as a fallback, the localhost Backend url is used. This was our solution to avoid some CORS issues in development.)
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8087'
 
 export const API_ENDPOINTS = {

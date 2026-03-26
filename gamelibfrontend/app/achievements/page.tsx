@@ -123,7 +123,7 @@ export default function GlobalAchievementsPage() {
 
       <div className={styles.gamesList}>
         {filteredGames.length === 0 ? (
-          <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Keine Spiele oder Achievements gefunden</p>
+          <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>{ !loading ? 'Keine Spiele oder Achievements gefunden' : ''}</p>
         ) : (
           filteredGames.map(game => (
             <div key={game.id} className={styles.gameCard}>
@@ -132,8 +132,6 @@ export default function GlobalAchievementsPage() {
                   {game.title}
                 </Link>
               </h2>
-
-              {/* Achievements aus diesem Spiel */}
               <div className={styles.achievementsList}>
                 {game.achievements && game.achievements.length > 0 ? (
                   game.achievements.map(ach => (
@@ -162,7 +160,7 @@ export default function GlobalAchievementsPage() {
 
       {hasMore && search === '' && (
         <div ref={observerTarget} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text-muted)' }}>
-          {loading ? 'Lade weitere Spiele...' : 'Scrolle für mehr'}
+          {loading ? 'Lade Spiele und Achievements... Dies kann mehrere Sekunden dauern' : 'Scrolle für mehr'}
         </div>
       )}
     </div>

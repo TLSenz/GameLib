@@ -33,6 +33,8 @@
 .commentInput:focus {
   outline: none;
   border-color: var(--accent-blue);
+  border-width: 2px;
+  transition: border-color 0.2s ease, border-width 0.1s ease;
 }
 
 .submitButton {

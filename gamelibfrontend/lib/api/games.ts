@@ -104,7 +104,6 @@ export const gamesAPI = {
     try {
       // Note: There's no direct API endpoint for searching by steamAppId so we fetch and filter locally. Not very efficient, but it works :D. For a prod app, Sven or I should implement a endpoint for the steamAppId.
 
-      console.log(steamAppId)
       const data = await gamesAPI.getAll(0, 1000)
       const game = data.content.find(g => String(g.steamAppId) === String(steamAppId))
       return game || null

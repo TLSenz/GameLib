@@ -26,7 +26,6 @@ function createFetchFunction(method: string, returnsJson: boolean = true) {
     if (_params.token && _params.token !== null) {
       (_params.headers as Record<string, string>)["Authorization"] = `Bearer ${_params.token.accessToken}`
     }
-    console.log(url, _params)
     
     const response = await fetch(url, _params as RequestInit)
 

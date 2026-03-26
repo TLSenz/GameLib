@@ -78,7 +78,7 @@ export default function CommentSection({ initialComments = [], gameId, achieveme
         />
         <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '0.5rem' }}>
           <label>Bewertung: </label>
-          <select value={rating} onChange={(e) => setRating(Number(e.target.value))} style={{ padding: '0.5rem', borderRadius: '4px' }}>
+          <select value={rating} onChange={(e) => setRating(Number(e.target.value))} style={{ color: 'var(--text-main)', background: 'var(--bg-input)', padding: '0.5rem', borderRadius: '4px' }}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
               <option key={num} value={num}>{num}/10</option>
             ))}
